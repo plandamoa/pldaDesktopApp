@@ -28,6 +28,19 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+
+            // icon 설정
+            macOS {
+                iconFile.set(project.file("src/main/resources/plda.icns"))
+            }
+            windows {
+                iconFile.set(project.file("src/main/resources/plda.ico"))
+            }
+            linux {
+                iconFile.set(project.file("src/main/resources/plda.png"))
+            }
+
+            // 프로그램 이름 설정
             packageName = "PLDA"
             packageVersion = "1.0.0"
         }
