@@ -9,4 +9,4 @@ Kotlin 플러그인 버전 : 232-1.9.0-IJ9559.62
 </br>
 
 ## 참고 Github
-https://github.com/JetBrains/compose-multiplatform-desktop-template#before-you-start
+[JetBrains 공식 Github](https://github.com/JetBrains/compose-multiplatform)
