@@ -51,7 +51,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             Spacer(modifier = Modifier.height(24.dp))
 
             // SNS 로그인 버튼
-            val aspectRatio = 5f // 이 값을 실제 SVG 이미지의 비율에 맞게 조정해야 합니다.
+            val aspectRatio = 5f //이미지 비율
             Box(
                     modifier = Modifier
                             .width(200.dp)
