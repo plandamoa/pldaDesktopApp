@@ -3,7 +3,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,7 +16,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun LoginScreen(onLoginSuccess: () -> Unit) {
-    val svgImage = painterResource("Google_Kor.svg")
+    val svgImage = painterResource("image/Google_Kor.svg")
 
     Box(
             modifier = Modifier
@@ -33,7 +32,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
         ) {
             // 로고
             Image(
-                    painter = painterResource("plda.png"),
+                    painter = painterResource("image/plda.png"),
                     contentDescription = "PLDA Logo",
                     modifier = Modifier.size(100.dp)
             )
