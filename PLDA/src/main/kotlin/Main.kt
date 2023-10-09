@@ -7,8 +7,8 @@ import java.awt.Toolkit
 fun main() = application {
     // 스크린 크기 계산
     val screenSize = Toolkit.getDefaultToolkit().screenSize
-    val width = (screenSize.width * 0.6).toInt().dp
-    val height = (screenSize.height * 0.6).toInt().dp
+    val width = (screenSize.width).dp
+    val height = (screenSize.height).dp
 
 
     Window(
@@ -21,7 +21,7 @@ fun main() = application {
             height = height
         ),
         title = "PLDA",
-        icon = painterResource("plda.png"),
+        icon = painterResource("image/plda.png"),
     ) {
         AppScreen()
     }
