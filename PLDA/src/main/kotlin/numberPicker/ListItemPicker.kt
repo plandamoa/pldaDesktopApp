@@ -1,5 +1,6 @@
 package com.chargemap.compose.numberpicker
 
+import UI.suitFamily
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
@@ -20,9 +21,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -45,7 +48,11 @@ fun <T> ListItemPicker(
     onValueChange: (T) -> Unit,
     dividersColor: Color = MaterialTheme.colors.primary,
     list: List<T>,
-    textStyle: TextStyle = LocalTextStyle.current,
+    textStyle: TextStyle = TextStyle(
+        fontSize = 20.sp,
+        fontFamily = suitFamily,
+        fontWeight = FontWeight.SemiBold,
+    )
 ) {
     val minimumAlpha = 0.3f
     val verticalMargin = 8.dp
