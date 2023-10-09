@@ -55,7 +55,7 @@ fun AppUI() { // 툴바와 달력 레이아웃
 
 @Composable
 fun TopAppBarLayout(year: Int, month: Int) {
-    var showDialog by remember { mutableStateOf(false) }
+
 
     Box(
             modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
@@ -65,10 +65,8 @@ fun TopAppBarLayout(year: Int, month: Int) {
         TopAppBarLeft()
 
         // 가운데: 년도와 월 이동
-        TopAppBarCenter(year, month) { showDialog = it }
-        if (showDialog) {
-            MainActivityUI()
-        }
+        TopAppBarCenter(year, month)
+
 
         // 오른쪽: 검색 창, 일정 추가 버튼, 설정 버튼
         TopAppBarRight()
@@ -102,7 +100,9 @@ fun TopAppBarLeft() {
 }
 
 @Composable
-fun TopAppBarCenter(year: Int, month: Int, onDialogChange: (Boolean) -> Unit) {
+fun TopAppBarCenter(year: Int, month: Int) {
+    var showDialog by remember { mutableStateOf(false) }
+
     Box(
             modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
             contentAlignment = Alignment.Center
@@ -110,7 +110,7 @@ fun TopAppBarCenter(year: Int, month: Int, onDialogChange: (Boolean) -> Unit) {
         Row(
                 modifier = Modifier
                         .align(Alignment.Center) // 가운데 정렬
-                        .clickable(onClick = { onDialogChange(true) }),  // 클릭 리스너 수정
+                        .clickable(onClick = { showDialog = true }),  // 클릭 리스너 수정
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
         ) {
@@ -128,6 +128,9 @@ fun TopAppBarCenter(year: Int, month: Int, onDialogChange: (Boolean) -> Unit) {
                             .size(30.dp)
                             .padding(start = 12.dp)
             )
+        }
+        if (showDialog) {
+            viewCalendarList() { showDialog = false }
         }
     }
 }

@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun MainActivityUI() {
-
     val scrollState = rememberScrollState()
 
     Column(
