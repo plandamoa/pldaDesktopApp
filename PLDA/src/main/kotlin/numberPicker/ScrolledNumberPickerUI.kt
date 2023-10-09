@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MainActivityUI() {
+fun ScrolledNumberPickerUI() {
     val scrollState = rememberScrollState()
 
     Column(
@@ -43,19 +43,19 @@ private fun HoursNumberPicker3() {
         onValueChange = {
             state = it
         },
-        minutesRange = IntProgression.fromClosedRange(0, 50, 10),
-        hoursDivider = {
+        monthsRange = IntProgression.fromClosedRange(1, 12, 1),
+        yearsDivider = {
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 textAlign = TextAlign.Center,
-                text = "h"
+                text = "년"
             )
         },
-        minutesDivider = {
+        monthsDivider = {
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 textAlign = TextAlign.Center,
-                text = "m"
+                text = "월"
             )
         }
     )

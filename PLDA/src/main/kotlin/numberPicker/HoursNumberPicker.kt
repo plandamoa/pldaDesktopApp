@@ -20,29 +20,15 @@ data class FullHours(
     override val minutes: Int,
 ) : Hours
 
-data class AMPMHours(
-    override val hours: Int,
-    override val minutes: Int,
-    val dayTime: DayTime
-) : Hours {
-    enum class DayTime {
-        AM,
-        PM;
-    }
-}
-
 @Composable
 fun HoursNumberPicker(
         modifier: Modifier = Modifier,
         value: Hours,
         leadingZero: Boolean = true,
-        hoursRange: Iterable<Int> = when (value) {
-        is FullHours -> (0..23)
-        is AMPMHours -> (1..12)
-    },
-        minutesRange: Iterable<Int> = (0..59),
-        hoursDivider: (@Composable () -> Unit)? = null,
-        minutesDivider: (@Composable () -> Unit)? = null,
+        yearsRange: Iterable<Int> = (2000..2050),
+        monthsRange: Iterable<Int> = (1..12),
+        yearsDivider: (@Composable () -> Unit)? = null,
+        monthsDivider: (@Composable () -> Unit)? = null,
         onValueChange: (Hours) -> Unit,
         dividersColor: Color = MaterialTheme.colors.primary,
         textStyle: TextStyle = LocalTextStyle.current,
@@ -50,29 +36,16 @@ fun HoursNumberPicker(
     when (value) {
         is FullHours ->
             FullHoursNumberPicker(
-                modifier = modifier,
-                value = value,
-                leadingZero = leadingZero,
-                hoursRange = hoursRange,
-                minutesRange = minutesRange,
-                hoursDivider = hoursDivider,
-                minutesDivider = minutesDivider,
-                onValueChange = onValueChange,
-                dividersColor = dividersColor,
-                textStyle = textStyle,
-            )
-        is AMPMHours ->
-            AMPMHoursNumberPicker(
-                modifier = modifier,
-                value = value,
-                leadingZero = leadingZero,
-                hoursRange = hoursRange,
-                minutesRange = minutesRange,
-                hoursDivider = hoursDivider,
-                minutesDivider = minutesDivider,
-                onValueChange = onValueChange,
-                dividersColor = dividersColor,
-                textStyle = textStyle,
+                    modifier = modifier,
+                    value = value,
+                    leadingZero = leadingZero,
+                    hoursRange = yearsRange,
+                    minutesRange = monthsRange,
+                    hoursDivider = yearsDivider,
+                    minutesDivider = monthsDivider,
+                    onValueChange = onValueChange,
+                    dividersColor = dividersColor,
+                    textStyle = textStyle,
             )
     }
 }
@@ -83,7 +56,7 @@ fun FullHoursNumberPicker(
         value: FullHours,
         leadingZero: Boolean = true,
         hoursRange: Iterable<Int>,
-        minutesRange: Iterable<Int> = (0..59),
+        minutesRange: Iterable<Int>,
         hoursDivider: (@Composable () -> Unit)? = null,
         minutesDivider: (@Composable () -> Unit)? = null,
         onValueChange: (Hours) -> Unit,
@@ -125,82 +98,5 @@ fun FullHoursNumberPicker(
         )
 
         minutesDivider?.invoke()
-    }
-}
-
-@Composable
-fun AMPMHoursNumberPicker(
-        modifier: Modifier = Modifier,
-        value: AMPMHours,
-        leadingZero: Boolean = true,
-        hoursRange: Iterable<Int>,
-        minutesRange: Iterable<Int> = (0..59),
-        hoursDivider: (@Composable () -> Unit)? = null,
-        minutesDivider: (@Composable () -> Unit)? = null,
-        onValueChange: (Hours) -> Unit,
-        dividersColor: Color = MaterialTheme.colors.primary,
-        textStyle: TextStyle = LocalTextStyle.current,
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        NumberPicker(
-            modifier = Modifier.weight(1f),
-            value = value.hours,
-            label = {
-                "${if (leadingZero && abs(it) < 10) "0" else ""}$it"
-            },
-            onValueChange = {
-                onValueChange(value.copy(hours = it))
-            },
-            dividersColor = dividersColor,
-            textStyle = textStyle,
-            range = hoursRange
-        )
-
-        hoursDivider?.invoke()
-
-        NumberPicker(
-            modifier = Modifier.weight(1f),
-            label = {
-                "${if (leadingZero && abs(it) < 10) "0" else ""}$it"
-            },
-            value = value.minutes,
-            onValueChange = {
-                onValueChange(value.copy(minutes = it))
-            },
-            dividersColor = dividersColor,
-            textStyle = textStyle,
-            range = minutesRange
-        )
-
-        minutesDivider?.invoke()
-
-        NumberPicker(
-            value = when (value.dayTime) {
-                AMPMHours.DayTime.AM -> 0
-                else -> 1
-            },
-            label = {
-                when (it) {
-                    0 -> "AM"
-                    else -> "PM"
-                }
-            },
-            onValueChange = {
-                onValueChange(
-                    value.copy(
-                        dayTime = when (it) {
-                            0 -> AMPMHours.DayTime.AM
-                            else -> AMPMHours.DayTime.PM
-                        }
-                    )
-                )
-            },
-            dividersColor = dividersColor,
-            textStyle = textStyle,
-            range = (0..1)
-        )
     }
 }
