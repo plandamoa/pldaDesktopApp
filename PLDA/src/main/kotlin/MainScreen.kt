@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import numberPicker.MainActivityUI
 import java.time.LocalDate
 
 enum class Screen {
@@ -66,7 +67,7 @@ fun TopAppBarLayout(year: Int, month: Int) {
         // 가운데: 년도와 월 이동
         TopAppBarCenter(year, month) { showDialog = it }
         if (showDialog) {
-            viewCalendarList { showDialog = false }
+            MainActivityUI()
         }
 
         // 오른쪽: 검색 창, 일정 추가 버튼, 설정 버튼
