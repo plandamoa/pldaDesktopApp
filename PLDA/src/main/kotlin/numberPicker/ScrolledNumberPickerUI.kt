@@ -1,5 +1,6 @@
 package numberPicker
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,25 +14,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ScrolledNumberPickerUI() {
-    val scrollState = rememberScrollState()
-
-    Column(
-            modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(scrollState)
-    ) {
-        Column(
-                Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-        ) {
-            HoursNumberPicker3()
-        }
-    }
+    YearsMonthsPicker()
 }
 
 @Composable
-private fun HoursNumberPicker3() {
+private fun YearsMonthsPicker() {
     var state by remember { mutableStateOf<Hours>(FullHours(9, 20)) }
 
     HoursNumberPicker(
