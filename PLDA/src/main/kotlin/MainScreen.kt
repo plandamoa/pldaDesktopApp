@@ -3,19 +3,16 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -49,18 +46,39 @@ fun AppUI() { // 툴바와 달력 레이아웃
                     .padding(16.dp)
                     .padding(start = 8.dp, end = 8.dp)
     ) {
-        TopAppBar(year = year, month = month) // 상단 툴바
+        TopAppBarLayout(year = year, month = month) // 상단 툴바
+
         Spacer(modifier = Modifier.height(16.dp))
+
         CustomCalendar(year = year, month = month) // 달력
     }
 }
 
 @Composable
-fun TopAppBar(year: Int, month: Int) {
+fun TopAppBarLayout(year: Int, month: Int) {
+
+
+    Box(
+            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+            contentAlignment = Alignment.Center
+    ) {
+        // 왼쪽: 로고 아이콘과 "PLDA" 텍스트
+        TopAppBarLeft()
+
+        // 가운데: 년도와 월 이동
+        TopAppBarCenter(year, month)
+
+
+        // 오른쪽: 검색 창, 일정 추가 버튼, 설정 버튼
+        TopAppBarRight()
+    }
+}
+
+@Composable
+fun TopAppBarLeft() {
     Box(
             modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
     ) {
-        // 왼쪽: 로고 아이콘과 "PLDA" 텍스트
         Row(
                 modifier = Modifier.align(Alignment.CenterStart), // 왼쪽 정렬
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -79,14 +97,21 @@ fun TopAppBar(year: Int, month: Int) {
                     fontSize = 25.sp
             )
         }
+    }
+}
 
-        // 가운데: 년도와 월 이동
+@Composable
+fun TopAppBarCenter(year: Int, month: Int) {
+    var showDialog by remember { mutableStateOf(false) }
+
+    Box(
+            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+            contentAlignment = Alignment.Center
+    ) {
         Row(
                 modifier = Modifier
                         .align(Alignment.Center) // 가운데 정렬
-                        .clickable {
-                            /* 클릭 시 수행할 동작 */
-                        },
+                        .clickable(onClick = { showDialog = true }),  // 클릭 리스너 수정
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
         ) {
@@ -105,41 +130,43 @@ fun TopAppBar(year: Int, month: Int) {
                             .padding(start = 12.dp)
             )
         }
+        if (showDialog) {
+            viewCalendarList() { showDialog = false }
+        }
+    }
+}
 
-        // 오른쪽: 검색 창, 일정 추가 버튼, 설정 버튼
+@Composable
+fun TopAppBarRight() {
+    Box(
+            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+    ) {
         Row(
-                modifier = Modifier.align(Alignment.CenterEnd), // 오른쪽 정렬
+                modifier = Modifier.align(Alignment.CenterEnd),
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
                 verticalAlignment = Alignment.CenterVertically
         ) {
-            // 검색 창
             SearchBar()
 
-            // 일정 추가 버튼
-            Icon(
-                    Icons.Default.Add,
-                    contentDescription = "Add",
-                    modifier = Modifier
-                            .size(38.dp)
-                            .clickable(
-                                onClick = {
-                                    // 여기에 클릭시 수행될 코드를 추가합니다.
-                                }
-                    )
-            )
+            Box(modifier = Modifier.size(38.dp)) {
+                Icon(
+                        Icons.Default.Add,
+                        contentDescription = "Add",
+                        modifier = Modifier
+                                .size(38.dp)
+                                .clickable(onClick = {  })
+                )
+            }
 
-            // 설정 버튼
-            Icon(
-                    painterResource("image/setting.svg"),
-                    contentDescription = "Settings",
-                    modifier = Modifier
-                            .size(38.dp)
-                            .clickable(
-                                onClick = {
-                                    // 여기에 클릭시 수행될 코드를 추가합니다.
-                                }
-                    )
-            )
+            Box(modifier = Modifier.size(38.dp)) {
+                Icon(
+                        painterResource("image/setting.svg"),
+                        contentDescription = "Settings",
+                        modifier = Modifier
+                                .size(38.dp)
+                                .clickable(onClick = {  })
+                )
+            }
         }
     }
 }
@@ -148,7 +175,7 @@ fun TopAppBar(year: Int, month: Int) {
 fun CustomCalendar(year: Int, month: Int) {
     val daysInMonth = LocalDate.of(year, month, 1).lengthOfMonth()
     val firstDayOfWeek = LocalDate.of(year, month, 1).dayOfWeek.value % 7
-    val previousMonthDays = if(month == 1) {
+    val previousMonthDays = if (month == 1) {
         LocalDate.of(year - 1, 12, 1).lengthOfMonth()
     } else {
         LocalDate.of(year, month - 1, 1).lengthOfMonth()
@@ -240,54 +267,6 @@ fun CustomCalendar(year: Int, month: Int) {
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun SearchBar() {
-    var text by remember { mutableStateOf("") }
-    var isFocused by remember { mutableStateOf(false) }
-
-    Box(
-            modifier = Modifier
-                    .height(50.dp)
-                    .width(140.dp)
-                    .background(color = searchBackGray, shape = RoundedCornerShape(16.dp))
-    ) {
-        Icon(
-                painterResource("image/search.svg"),
-                contentDescription = "Search Icon",
-                tint = searchGray,
-                modifier = Modifier
-                        .padding(start = 18.dp, top = 11.5.dp)
-                        .size(23.dp)
-        )
-        BasicTextField(
-                value = text,
-                onValueChange = { text = it },
-                textStyle = TextStyle(color = searchGray, fontSize = 18.sp),
-                cursorBrush = SolidColor(searchGray),
-                singleLine = true,
-                modifier = Modifier
-                        .padding(start = 52.dp, end = 8.dp) // Icon의 width와 padding을 고려
-                        .fillMaxHeight()
-                        .padding(vertical = 12.5.dp) // 수직 패딩을 조절하여 텍스트가 세로 중앙에 위치하도록 함
-                        .onFocusChanged { focusState ->
-                            isFocused = focusState.isFocused }
-        )
-
-        if (!isFocused && text.isEmpty()) { // 기본 텍스트
-            Text(
-                    text = "일정검색",
-                    color = searchGray,
-                    fontFamily = suitFamily,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 18.sp,
-                    modifier = Modifier
-                            .padding(start = 52.dp, end = 8.dp)
-                            .padding(vertical = 12.5.dp)
-            )
         }
     }
 }
