@@ -1,4 +1,8 @@
 
+import UI.dateBlack
+import UI.suitFamily
+import UI.text_primary
+import UI.text_third
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,12 +44,24 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             Spacer(modifier = Modifier.height(24.dp))
 
             // 앱 이름
-            Text(text = "PLDA", fontSize = 32.sp, fontWeight = FontWeight.Bold)
+            Text(
+                text = "PLDA",
+                fontSize = 32.sp,
+                fontFamily = suitFamily,
+                fontWeight = FontWeight.ExtraBold,
+                color = text_primary
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             // 설명
-            Text(text = "여기저기 흩어진 내 일정을 단 한번에", fontSize = 16.sp)
+            Text(
+                text = "여기저기 흩어진 내 일정을 단 한번에",
+                fontSize = 16.sp,
+                fontFamily = suitFamily,
+                fontWeight = FontWeight.Medium,
+                color = text_third
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -69,7 +85,13 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                 modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 16.dp)
         ) {
             // Copyright Text
-            Text(text = "Copyright © PLDA team. All rights reserved.", fontSize = 12.sp)
+            Text(
+                text = "Copyright © PLDA team. All rights reserved.",
+                fontSize = 12.sp,
+                fontFamily = suitFamily,
+                fontWeight = FontWeight.Medium,
+                color = text_third
+            )
         }
     }
 }
