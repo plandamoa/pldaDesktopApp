@@ -69,14 +69,15 @@ fun TopAppBar(year: Int, month: Int) {
             Image(
                     painter = painterResource("image/plda.png"),
                     contentDescription = "PLDA Logo",
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(1.dp))
             Text(
-                    text = "PLDA",
-                    fontFamily = suitFamily,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 25.sp
+                text = "PLDA",
+                fontFamily = suitFamily,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 16.sp,
+                color = gray_100
             )
         }
 
