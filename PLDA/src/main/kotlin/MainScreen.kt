@@ -3,7 +3,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -14,10 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.time.LocalDate
 
 @Composable
 fun AppUI() { // 툴바와 달력 레이아웃
@@ -40,8 +37,6 @@ fun AppUI() { // 툴바와 달력 레이아웃
 
 @Composable
 fun TopAppBarLayout(year: Int, month: Int) {
-
-
     Box(
             modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
             contentAlignment = Alignment.Center
@@ -86,7 +81,7 @@ fun TopAppBarLeft() {
 
 @Composable
 fun TopAppBarCenter(year: Int, month: Int) {
-    var showDialog by remember { mutableStateOf(false) }
+    var showDatePickerDialog by remember { mutableStateOf(false) }
 
     Box(
             modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
@@ -94,8 +89,8 @@ fun TopAppBarCenter(year: Int, month: Int) {
     ) {
         Row(
                 modifier = Modifier
-                        .align(Alignment.Center) // 가운데 정렬
-                        .clickable(onClick = { showDialog = true }),  // 클릭 리스너 수정
+                        .align(Alignment.Center)
+                        .clickable(onClick = { showDatePickerDialog = true }),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
         ) {
@@ -115,14 +110,16 @@ fun TopAppBarCenter(year: Int, month: Int) {
                             .padding(start = 4.dp)
             )
         }
-        if (showDialog) {
-            viewCalendarList() { showDialog = false }
+        if (showDatePickerDialog) {
+            DatePickerDialog() { showDatePickerDialog = false }
         }
     }
 }
 
 @Composable
 fun TopAppBarRight() {
+    var showAddScheduleDialog by remember { mutableStateOf(false) }
+
     Box(
             modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
     ) {
@@ -139,7 +136,7 @@ fun TopAppBarRight() {
                         contentDescription = "Add",
                         modifier = Modifier
                                 .size(24.dp)
-                                .clickable(onClick = {  })
+                                .clickable(onClick = { showAddScheduleDialog = true })
                 )
             }
 
@@ -153,5 +150,8 @@ fun TopAppBarRight() {
                 )
             }
         }
+    }
+    if (showAddScheduleDialog) {
+        AddScheduleDialog() { showAddScheduleDialog = false }
     }
 }

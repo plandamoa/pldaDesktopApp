@@ -20,7 +20,7 @@ import numberPicker.YearsMonthsPicker
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun viewCalendarList(onDialogDismiss: () -> Unit) {
+fun DatePickerDialog(onDialogDismiss: () -> Unit) {
     AlertDialog(
             modifier = Modifier.size(400.dp, 300.dp),
             onDismissRequest = onDialogDismiss,
