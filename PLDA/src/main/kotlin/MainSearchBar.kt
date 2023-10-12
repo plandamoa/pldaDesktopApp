@@ -34,7 +34,7 @@ fun SearchBar() {
                         .padding(start = 24.dp, top = 8.dp)
                         .size(16.dp)
         )
-        BasicTextField(
+        BasicTextField( // todo: 검색창 클릭 했을 떄 텍스트 입력 부분 어떻게 디자인 할지 논의
                 value = text,
                 onValueChange = { text = it },
                 textStyle = TextStyle(
