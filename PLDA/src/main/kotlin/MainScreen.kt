@@ -89,7 +89,6 @@ fun TopAppBarLeft() {
                     contentDescription = "PLDA Logo",
                     modifier = Modifier.size(24.dp)
             )
-            Spacer(modifier = Modifier.width(1.dp))
             Text(
                 text = "PLDA",
                 fontFamily = suitFamily,
@@ -120,15 +119,16 @@ fun TopAppBarCenter(year: Int, month: Int) {
                     text = "${year}년 ${month}월",
                     fontFamily = suitFamily,
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = 28.sp,
+                    fontSize = 18.sp,
+                    color = text_primary
             )
             Icon(
                     painterResource("image/expand_more.svg"),
                     contentDescription = "Drop Down Arrow",
-                    tint = arrowButtonGray,
+                    tint = gray_40,
                     modifier = Modifier
-                            .size(30.dp)
-                            .padding(start = 12.dp)
+                            .size(16.dp)
+                            .padding(start = 4.dp)
             )
         }
         if (showDialog) {
@@ -149,22 +149,22 @@ fun TopAppBarRight() {
         ) {
             SearchBar()
 
-            Box(modifier = Modifier.size(38.dp)) {
+            Box(modifier = Modifier.size(24.dp)) {
                 Icon(
                         Icons.Default.Add,
                         contentDescription = "Add",
                         modifier = Modifier
-                                .size(38.dp)
+                                .size(24.dp)
                                 .clickable(onClick = {  })
                 )
             }
 
-            Box(modifier = Modifier.size(38.dp)) {
+            Box(modifier = Modifier.size(24.dp)) {
                 Icon(
                         painterResource("image/setting.svg"),
                         contentDescription = "Settings",
                         modifier = Modifier
-                                .size(38.dp)
+                                .size(24.dp)
                                 .clickable(onClick = {  })
                 )
             }
@@ -188,7 +188,7 @@ fun CustomCalendar(year: Int, month: Int) {
     Column(
             modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White)
+                    .background(bg_white)
     ) {
         Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -200,7 +200,7 @@ fun CustomCalendar(year: Int, month: Int) {
                         modifier = Modifier.weight(1f),
                         fontFamily = suitFamily,
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 16.sp,
+                        fontSize = 12.sp,
                         color = if (day == "일") sundayRed
                             else dayOfTheWeekGray,
                         textAlign = TextAlign.Center
@@ -212,7 +212,7 @@ fun CustomCalendar(year: Int, month: Int) {
         val DAYS_VERTICAL_SIZE = 1.8f // 달력 날짜 칸 세로 비율
 
         for (i in 0..5) {
-            Divider(color = dateLightGray, thickness = 1.4.dp)
+            Divider(color = gray_20, thickness = 1.2.dp)
 
             Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -235,8 +235,8 @@ fun CustomCalendar(year: Int, month: Int) {
                                         modifier = Modifier.padding(8.dp),
                                         fontFamily = suitFamily,
                                         fontWeight = FontWeight.SemiBold,
-                                        fontSize = 16.sp,
-                                        color = dateLightGray
+                                        fontSize = 11.sp,
+                                        color = text_lowEmphasis
                                 )
                                 previousMonthDayToShow++
                             }
@@ -247,8 +247,8 @@ fun CustomCalendar(year: Int, month: Int) {
                                         modifier = Modifier.padding(8.dp),
                                         fontFamily = suitFamily,
                                         fontWeight = FontWeight.SemiBold,
-                                        fontSize = 16.sp,
-                                        color = dateBlack
+                                        fontSize = 11.sp,
+                                        color = text_primary
                                 )
                                 day++
                             }
@@ -259,8 +259,8 @@ fun CustomCalendar(year: Int, month: Int) {
                                         modifier = Modifier.padding(8.dp),
                                         fontFamily = suitFamily,
                                         fontWeight = FontWeight.SemiBold,
-                                        fontSize = 16.sp,
-                                        color = dateLightGray
+                                        fontSize = 11.sp,
+                                        color = text_lowEmphasis
                                 )
                                 nextMonthDay++
                             }

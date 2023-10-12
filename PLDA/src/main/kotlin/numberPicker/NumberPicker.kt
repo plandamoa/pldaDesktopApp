@@ -1,7 +1,7 @@
 package numberPicker
 
+import UI.main_100
 import UI.suitFamily
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.chargemap.compose.numberpicker.ListItemPicker
 
 @Composable
 fun NumberPicker(
@@ -22,9 +21,10 @@ fun NumberPicker(
     dividersColor: Color = MaterialTheme.colors.primary,
     range: Iterable<Int>,
     textStyle: TextStyle = TextStyle(
-        fontSize = 20.sp,
+        fontSize = 8.sp,
         fontFamily = suitFamily,
         fontWeight = FontWeight.SemiBold,
+        color = main_100
     )
 ) {
     ListItemPicker(
