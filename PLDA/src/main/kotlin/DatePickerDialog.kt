@@ -69,7 +69,7 @@ fun ConfirmButton(onClick: () -> Unit) {
 }
 
 @Composable
-private fun TextRow() {
+fun TextRow() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start,

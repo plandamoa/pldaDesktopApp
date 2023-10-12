@@ -2,15 +2,22 @@ import UI.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -19,15 +26,20 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun AddScheduleDialog(onDialogDismiss: () -> Unit) {
     AlertDialog(
-        modifier = Modifier.size(400.dp, 700.dp),
+        modifier = Modifier.size(500.dp, 700.dp),
         onDismissRequest = onDialogDismiss,
         title = { },
         text = {
             Column(
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
             ) {
                 AddScheduleTopBar()
-                AddScheduleContent()
+                Spacer(modifier = Modifier.padding(32.dp))
+                Box(
+                    modifier = Modifier.weight(1f).fillMaxWidth()
+                ) {
+                    AddScheduleContent()
+                }
             }
         },
         shape = RoundedCornerShape(16.dp),
@@ -97,11 +109,128 @@ fun AddScheduleTopBar() {
 
 @Composable
 fun AddScheduleContent() {
+    val scrollState = rememberScrollState()
+
+    Column(
+        modifier = Modifier.verticalScroll(scrollState)
+    ) {
+        TextFieldComponent() // 일정 이름
+        Toggle() // 카테고리
+        Toggle() // 시간
+        Toggle() // 연동된 계정
+        Toggle() // 알림
+        Toggle() // 두 번째 알림
+        TextFieldComponent() // 메모
+        Toggle() // 알림
+        Toggle() // 두 번째 알림
+        TextFieldComponent() // 메모
+    }
+}
+
+@Composable
+fun TextFieldComponent() {
+    var textState = remember { mutableStateOf(TextFieldValue()) }
+    var isFocused by remember { mutableStateOf(false) }
+
+    Column {
+        Text(
+            text = "일정 이름",
+            fontFamily = suitFamily,
+            fontWeight = FontWeight.Medium,
+            fontSize = 12.sp,
+            color = text_primary
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
+
+        Box(modifier = Modifier.fillMaxWidth()) {
+            BasicTextField(
+                value = textState.value,
+                onValueChange = {
+                    textState.value = it
+                },
+                textStyle = TextStyle(
+                    color = text_primary,
+                    fontFamily = suitFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 20.sp,
+                ),
+                modifier = Modifier
+                    .background(Color.White)
+                    .fillMaxWidth()
+                    .size(50.dp)
+                    .padding(end = 48.dp).padding(vertical = 5.dp)
+                    .onFocusChanged { focusState ->
+                        isFocused = focusState.isFocused },
+                singleLine = true
+            )
+            if (!isFocused && textState.value.text.isEmpty()) { // Use value property to get the underlying value
+                Text(
+                    text = "제목을 입력해주세요.",
+                    color = text_lowEmphasis,
+                    fontFamily = suitFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .padding(end = 48.dp)
+                        .padding(vertical = 5.dp)
+                )
+            }
+        }
+        Divider(color = gray_20)
+    }
+    Spacer(modifier = Modifier.padding(24.dp))
+}
+
+@Composable
+fun Toggle() {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
-        // 여기에 화면을 꽉 채우는 다른 UI 컴포넌트들을 추가할 수 있습니다.
-        Text("여기에 내용을 추가하세요.")
+        // 왼쪽: 아이콘과 요소 제목
+        Row(
+            modifier = Modifier
+                .align(Alignment.CenterStart),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "Back Arrow",
+                modifier = Modifier.size(24.dp),
+                tint = gray_100
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = "카테고리",
+                fontFamily = suitFamily,
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp,
+                color = text_primary
+            )
+        }
+
+        // 오른쪽: 토글 버튼
+        Row(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .clickable(onClick = { }),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "학교 외 1",
+                fontFamily = suitFamily,
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp,
+                color = text_secondary
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Icon(
+                painterResource("image/expand_more.svg"),
+                contentDescription = "Down Arrow",
+                modifier = Modifier.size(10.dp),
+                tint = gray_60
+            )
+        }
     }
+    Spacer(modifier = Modifier.padding(24.dp))
 }
