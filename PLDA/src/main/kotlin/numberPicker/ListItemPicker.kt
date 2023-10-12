@@ -1,4 +1,4 @@
-package com.chargemap.compose.numberpicker
+package numberPicker
 
 import UI.suitFamily
 import androidx.compose.animation.core.*
@@ -8,7 +8,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.Text
@@ -111,7 +110,8 @@ fun <T> ListItemPicker(
                 }
             )
             .padding(vertical = numbersColumnHeight / 3 + verticalMargin * 2),
-        content = {
+
+        content = { // todo: 선택된 요소 위, 아래 각각 2개씩 나타나도록 수정 & 위, 아래 글씨 회색으로 변경
             Box(
                 modifier
                     .width(dividersWidth)
