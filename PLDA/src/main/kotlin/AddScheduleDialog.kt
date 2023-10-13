@@ -22,29 +22,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AddScheduleDialog(onDialogDismiss: () -> Unit) {
-    AlertDialog(
-        modifier = Modifier.size(500.dp, 700.dp),
-        onDismissRequest = onDialogDismiss,
-        title = { },
-        text = {
+fun AddScheduleDialog() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(bg_white), // 뒷배경
+                contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier.background(bg_white), // 앞 메인 페이지
+        ) {
             Column(
-                modifier = Modifier.padding(8.dp),
+                Modifier.padding(horizontal = 100.dp)
+                    .padding(bottom = 16.dp)
             ) {
                 AddScheduleTopBar()
                 Spacer(modifier = Modifier.padding(32.dp))
-                Box(
-                    modifier = Modifier.weight(1f).fillMaxWidth()
-                ) {
-                    AddScheduleContent()
-                }
+                AddScheduleContent()
             }
-        },
-        shape = RoundedCornerShape(16.dp),
-        confirmButton = { }
-    )
+        }
+    }
 }
 
 @Composable
@@ -89,7 +87,7 @@ fun AddScheduleTopBar() {
         // 오른쪽: 완료 버튼
         Box(
             modifier = Modifier
-                .clickable(onClick = { })
+                .clickable(onClick = {})
                 .background(main_100, shape = RoundedCornerShape(8.dp))
                 .align(Alignment.CenterEnd)
                 .size(width = 64.dp, height = 32.dp),

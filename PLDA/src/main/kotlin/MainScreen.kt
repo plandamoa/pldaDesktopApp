@@ -152,6 +152,6 @@ fun TopAppBarRight() {
         }
     }
     if (showAddScheduleDialog) {
-        AddScheduleDialog() { showAddScheduleDialog = false }
+        AddScheduleDialog()
     }
 }
