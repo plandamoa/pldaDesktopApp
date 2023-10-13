@@ -118,7 +118,7 @@ fun TopAppBarCenter(year: Int, month: Int) {
 
 @Composable
 fun TopAppBarRight() {
-    var showAddScheduleDialog by remember { mutableStateOf(false) }
+    val showAddScheduleDialog = remember { mutableStateOf(false) }
 
     Box(
             modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
@@ -136,7 +136,7 @@ fun TopAppBarRight() {
                         contentDescription = "Add",
                         modifier = Modifier
                                 .size(24.dp)
-                                .clickable(onClick = { showAddScheduleDialog = true })
+                                .clickable(onClick = { showAddScheduleDialog.value = true })
                 )
             }
 
@@ -151,7 +151,10 @@ fun TopAppBarRight() {
             }
         }
     }
-    if (showAddScheduleDialog) {
-        AddScheduleDialog()
+    if (showAddScheduleDialog.value) {
+        AddScheduleDialog(
+            isDialogVisible = showAddScheduleDialog,
+            onDismiss = { showAddScheduleDialog.value = false }
+        )
     }
 }

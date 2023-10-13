@@ -23,23 +23,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AddScheduleDialog() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(bg_white), // 뒷배경
-                contentAlignment = Alignment.Center
-    ) {
+fun AddScheduleDialog(isDialogVisible: MutableState<Boolean>, onDismiss: () -> Unit) {
+    if (isDialogVisible.value) {
         Box(
-            modifier = Modifier.background(bg_white), // 앞 메인 페이지
+            modifier = Modifier
+                .fillMaxSize()
+                .background(bg_white), // 뒷배경
+            contentAlignment = Alignment.Center
         ) {
-            Column(
-                Modifier.padding(horizontal = 100.dp)
-                    .padding(bottom = 16.dp)
+            Box(
+                modifier = Modifier.background(bg_white), // 앞 메인 페이지
             ) {
-                AddScheduleTopBar()
-                Spacer(modifier = Modifier.padding(32.dp))
-                AddScheduleContent()
+                Column(
+                    Modifier.padding(horizontal = 100.dp)
+                        .padding(bottom = 16.dp)
+                ) {
+                    AddScheduleTopBar(isDialogVisible = isDialogVisible, onDismiss = onDismiss)
+                    Spacer(modifier = Modifier.padding(32.dp))
+                    AddScheduleContent()
+                }
             }
         }
     }
@@ -47,7 +49,7 @@ fun AddScheduleDialog() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AddScheduleTopBar() {
+fun AddScheduleTopBar(isDialogVisible: MutableState<Boolean>, onDismiss: () -> Unit) {
     val showDialogLeftBack = remember { mutableStateOf(false) }
     val showDialogRightConfirm = remember { mutableStateOf(false) }
 
@@ -106,7 +108,7 @@ fun AddScheduleTopBar() {
                 color = Color.White  // 버튼의 글자 색을 흰색으로 변경
             )
         }
-        
+
         if (showDialogLeftBack.value) {
             AlertDialog(
                 onDismissRequest = { showDialogLeftBack.value = false },
@@ -114,7 +116,10 @@ fun AddScheduleTopBar() {
                 text = { Text(text = "This is the dialog for the left button.") },
                 buttons = {
                     Row {
-                        Button(onClick = { showDialogLeftBack.value = false }) {
+                        Button(onClick = {
+                            showDialogLeftBack.value = false
+                            onDismiss()
+                        }) {
                             Text("예")
                         }
                         Button(onClick = { showDialogLeftBack.value = false }) {
@@ -132,7 +137,10 @@ fun AddScheduleTopBar() {
                 text = { Text(text = "This is the dialog for the right button.") },
                 buttons = {
                     Row {
-                        Button(onClick = { showDialogRightConfirm.value = false }) {
+                        Button(onClick = {
+                            showDialogRightConfirm.value = false
+                            onDismiss()
+                        }) {
                             Text("예")
                         }
                         Button(onClick = { showDialogRightConfirm.value = false }) {
