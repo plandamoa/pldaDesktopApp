@@ -45,8 +45,12 @@ fun AddScheduleDialog() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AddScheduleTopBar() {
+    val showDialogLeftBack = remember { mutableStateOf(false) }
+    val showDialogRightConfirm = remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
@@ -54,8 +58,8 @@ fun AddScheduleTopBar() {
         // 왼쪽: 뒤로 가기 버튼과 '달력으로' 텍스트
         Row(
             modifier = Modifier
-                .align(Alignment.CenterStart) // 왼쪽 정렬
-                .clickable(onClick = { }),
+                .align(Alignment.CenterStart)
+                .clickable(onClick = { showDialogLeftBack.value = true }), // todo
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -87,7 +91,7 @@ fun AddScheduleTopBar() {
         // 오른쪽: 완료 버튼
         Box(
             modifier = Modifier
-                .clickable(onClick = {})
+                .clickable(onClick = { showDialogRightConfirm.value = true }) // todo
                 .background(main_100, shape = RoundedCornerShape(8.dp))
                 .align(Alignment.CenterEnd)
                 .size(width = 64.dp, height = 32.dp),
@@ -100,6 +104,42 @@ fun AddScheduleTopBar() {
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center,
                 color = Color.White  // 버튼의 글자 색을 흰색으로 변경
+            )
+        }
+        
+        if (showDialogLeftBack.value) {
+            AlertDialog(
+                onDismissRequest = { showDialogLeftBack.value = false },
+                title = { Text(text = "나가시겠습니까?") },
+                text = { Text(text = "This is the dialog for the left button.") },
+                buttons = {
+                    Row {
+                        Button(onClick = { showDialogLeftBack.value = false }) {
+                            Text("예")
+                        }
+                        Button(onClick = { showDialogLeftBack.value = false }) {
+                            Text("아니요")
+                        }
+                    }
+                }
+            )
+        }
+
+        if (showDialogRightConfirm.value) {
+            AlertDialog(
+                onDismissRequest = { showDialogRightConfirm.value = false },
+                title = { Text(text = "저장하시겠습니까?") },
+                text = { Text(text = "This is the dialog for the right button.") },
+                buttons = {
+                    Row {
+                        Button(onClick = { showDialogRightConfirm.value = false }) {
+                            Text("예")
+                        }
+                        Button(onClick = { showDialogRightConfirm.value = false }) {
+                            Text("아니요")
+                        }
+                    }
+                }
             )
         }
     }
@@ -116,9 +156,6 @@ fun AddScheduleContent() {
         Toggle() // 카테고리
         Toggle() // 시간
         Toggle() // 연동된 계정
-        Toggle() // 알림
-        Toggle() // 두 번째 알림
-        TextFieldComponent() // 메모
         Toggle() // 알림
         Toggle() // 두 번째 알림
         TextFieldComponent() // 메모
