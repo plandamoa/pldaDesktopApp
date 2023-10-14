@@ -59,10 +59,10 @@ fun ConfirmButton(onClick: () -> Unit) {
     Box(modifier = Modifier.size(24.dp)) {
         Icon(
             Icons.Default.Check,
-            contentDescription = "Add",
+            contentDescription = "Check",
             modifier = Modifier
                 .size(24.dp)
-                .clickable(onClick = onClick),
+                .clickable(onClick = onClick), // todo: Confirm 버튼 누르면 창 닫기
             tint = main_100
         )
     }

@@ -38,7 +38,7 @@ fun AddScheduleDialog(isDialogVisible: MutableState<Boolean>, onDismiss: () -> U
                     Modifier.padding(horizontal = 100.dp)
                         .padding(bottom = 16.dp)
                 ) {
-                    AddScheduleTopBar(isDialogVisible = isDialogVisible, onDismiss = onDismiss)
+                    AddScheduleTopBar(onDismiss = onDismiss)
                     Spacer(modifier = Modifier.padding(32.dp))
                     AddScheduleContent()
                 }
@@ -49,10 +49,7 @@ fun AddScheduleDialog(isDialogVisible: MutableState<Boolean>, onDismiss: () -> U
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AddScheduleTopBar(isDialogVisible: MutableState<Boolean>, onDismiss: () -> Unit) {
-    val showDialogLeftBack = remember { mutableStateOf(false) }
-    val showDialogRightConfirm = remember { mutableStateOf(false) }
-
+fun AddScheduleTopBar(onDismiss: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
@@ -61,7 +58,7 @@ fun AddScheduleTopBar(isDialogVisible: MutableState<Boolean>, onDismiss: () -> U
         Row(
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .clickable(onClick = { showDialogLeftBack.value = true }), // todo
+                .clickable(onClick = { onDismiss() }),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -93,7 +90,10 @@ fun AddScheduleTopBar(isDialogVisible: MutableState<Boolean>, onDismiss: () -> U
         // 오른쪽: 완료 버튼
         Box(
             modifier = Modifier
-                .clickable(onClick = { showDialogRightConfirm.value = true }) // todo
+                .clickable(onClick = {
+                    onDismiss()
+                    // todo: 입력 내용 저장하는 기능 추가
+                })
                 .background(main_100, shape = RoundedCornerShape(8.dp))
                 .align(Alignment.CenterEnd)
                 .size(width = 64.dp, height = 32.dp),
@@ -106,48 +106,6 @@ fun AddScheduleTopBar(isDialogVisible: MutableState<Boolean>, onDismiss: () -> U
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center,
                 color = Color.White  // 버튼의 글자 색을 흰색으로 변경
-            )
-        }
-
-        if (showDialogLeftBack.value) {
-            AlertDialog(
-                onDismissRequest = { showDialogLeftBack.value = false },
-                title = { Text(text = "나가시겠습니까?") },
-                text = { Text(text = "This is the dialog for the left button.") },
-                buttons = {
-                    Row {
-                        Button(onClick = {
-                            showDialogLeftBack.value = false
-                            onDismiss()
-                        }) {
-                            Text("예")
-                        }
-                        Button(onClick = { showDialogLeftBack.value = false }) {
-                            Text("아니요")
-                        }
-                    }
-                }
-            )
-        }
-
-        if (showDialogRightConfirm.value) {
-            AlertDialog(
-                onDismissRequest = { showDialogRightConfirm.value = false },
-                title = { Text(text = "저장하시겠습니까?") },
-                text = { Text(text = "This is the dialog for the right button.") },
-                buttons = {
-                    Row {
-                        Button(onClick = {
-                            showDialogRightConfirm.value = false
-                            onDismiss()
-                        }) {
-                            Text("예")
-                        }
-                        Button(onClick = { showDialogRightConfirm.value = false }) {
-                            Text("아니요")
-                        }
-                    }
-                }
             )
         }
     }
