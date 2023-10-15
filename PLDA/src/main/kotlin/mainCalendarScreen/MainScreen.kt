@@ -1,3 +1,6 @@
+package mainCalendarScreen
+
+import addScheduleScreen.AddScheduleScreen
 import UI.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import datePickerDialog.DatePickerDialog
 
 @Composable
 fun AppUI() { // 툴바와 달력 레이아웃
@@ -152,8 +156,8 @@ fun TopAppBarRight() {
         }
     }
     if (showAddScheduleDialog.value) {
-        AddScheduleDialog(
-            isDialogVisible = showAddScheduleDialog,
+        AddScheduleScreen(
+            isAddScreenVisible = showAddScheduleDialog,
             onDismiss = { showAddScheduleDialog.value = false }
         )
     }
