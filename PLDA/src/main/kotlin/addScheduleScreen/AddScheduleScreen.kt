@@ -33,7 +33,7 @@ fun AddScheduleScreen(isAddScreenVisible: MutableState<Boolean>, onDismiss: () -
                 modifier = Modifier.background(bg_white), // 앞 메인 페이지
             ) {
                 Column(
-                    Modifier.padding(horizontal = 100.dp)
+                    Modifier.padding(horizontal = 150.dp)
                         .padding(bottom = 16.dp)
                 ) {
                     AddScheduleTopBar(onDismiss = onDismiss)
@@ -122,27 +122,27 @@ fun AddScheduleContent() {
         )
         Spacer(Modifier.padding(12.dp))
         ToggleMenu(
-            icon = painterResource("image/expand_more.svg"),
+            icon = painterResource("image/category.svg"),
             titleText = "카테고리",
             toggleButtonText = "학교 외 1"
         )
         ToggleMenu(
-            icon = painterResource("image/expand_more.svg"),
+            icon = painterResource("image/time.svg"),
             titleText = "시간",
             toggleButtonText = "하루종일"
         )
         ToggleMenu(
-            icon = painterResource("image/expand_more.svg"),
+            icon = painterResource("image/account.svg"),
             titleText = "연동된 계정",
             toggleButtonText = "구글 외 1"
         )
         ToggleMenu(
-            icon = painterResource("image/expand_more.svg"),
+            icon = painterResource("image/alarm.svg"),
             titleText = "알림",
             toggleButtonText = "10분 전"
         )
         ToggleMenu(
-            icon = painterResource("image/expand_more.svg"),
+            icon = painterResource("image/alarm2.svg"),
             titleText = "두 번째 알림",
             toggleButtonText = "30분 전"
         )

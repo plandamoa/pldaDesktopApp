@@ -1,6 +1,10 @@
 package addScheduleScreen
 
 import UI.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,12 +14,11 @@ import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,9 +30,14 @@ fun ToggleMenu(
     titleText: String,
     toggleButtonText: String
 ) {
+    var isContentVisible by remember { mutableStateOf(false) }
+
     Column {
         ToggleTopBar(icon, titleText, toggleButtonText)
-        ToggleContent()
+            { isContentVisible = !isContentVisible }
+        if (isContentVisible) {
+            ToggleContent()
+        }
     }
 }
 
@@ -37,13 +45,14 @@ fun ToggleMenu(
 fun ToggleTopBar(
     icon: Painter,
     titleText: String,
-    toggleButtonText: String
+    toggleButtonText: String,
+    onToggleClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(72.dp)
-            .clickable(onClick = { }),
+            .clickable(onClick = onToggleClick),
         contentAlignment = Alignment.Center
 
     ) {
@@ -54,12 +63,12 @@ fun ToggleTopBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Back Arrow",
+                icon,
+                contentDescription = "Icon",
                 modifier = Modifier.size(24.dp),
                 tint = gray_100
             )
-            Spacer(modifier = Modifier.width(4.dp))
+            Spacer(modifier = Modifier.width(12.dp))
             Text(
                 text = titleText,
                 fontFamily = suitFamily,
@@ -85,7 +94,7 @@ fun ToggleTopBar(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Icon(
-                icon,
+                painterResource("image/expand_more.svg"),
                 contentDescription = "Down Arrow",
                 modifier = Modifier.size(10.dp),
                 tint = gray_60
@@ -97,8 +106,17 @@ fun ToggleTopBar(
 @Composable
 fun ToggleContent() {
     val items = listOf("기본", "개인", "학교", "회사")
+    val isVisible = remember { mutableStateOf(true) }
 
-    Box(modifier = Modifier
+    AnimatedVisibility(
+        visible = isVisible.value,
+        enter = slideInVertically(),
+        exit = slideOutVertically()
+    ) {
+
+    }
+    Box(
+        modifier = Modifier
         .fillMaxWidth()
         .background(bg_gray, shape = RoundedCornerShape(16.dp))
         .padding(24.dp)
