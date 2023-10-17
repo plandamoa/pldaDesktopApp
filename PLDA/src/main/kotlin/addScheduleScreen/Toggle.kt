@@ -28,15 +28,28 @@ import androidx.compose.ui.unit.sp
 fun ToggleMenu(
     icon: Painter,
     titleText: String,
-    toggleButtonText: String
+    items: List<String>,
+    showEditButton: Boolean = true
 ) {
     var isContentVisible by remember { mutableStateOf(false) }
+    var selectedItem by remember { mutableStateOf<String?>(null)}
 
     Column {
-        ToggleTopBar(icon, titleText, toggleButtonText)
-            { isContentVisible = !isContentVisible }
+        ToggleTopBar(
+            icon = icon,
+            titleText = titleText,
+            toggleButtonText = selectedItem ?: " ", // Explicitly name the argument
+            onToggleClick = { isContentVisible = !isContentVisible } // Explicitly name the lambda argument
+        )
         if (isContentVisible) {
-            ToggleContent()
+            ToggleContent(
+                items = items,
+                showEditButton = showEditButton,
+                selectedItem = selectedItem,
+                onSelectionChanged = { newSelectedItem -> // Explicitly name the lambda argument
+                    selectedItem = newSelectedItem
+                }
+            )
         }
     }
 }
@@ -104,8 +117,12 @@ fun ToggleTopBar(
 }
 
 @Composable
-fun ToggleContent() {
-    val items = listOf("기본", "개인", "학교", "회사")
+fun ToggleContent(
+    items: List<String>,
+    showEditButton: Boolean = true,
+    selectedItem: String?,
+    onSelectionChanged: (String) -> Unit
+) {
     val isVisible = remember { mutableStateOf(true) }
 
     AnimatedVisibility(
@@ -122,33 +139,33 @@ fun ToggleContent() {
         .padding(24.dp)
     ) {
         Column {
-            RadioButtonGroup(items) { selectedItem ->
-                println("Selected item: $selectedItem")
-            }
+            RadioButtonGroup(items, selectedItem, onSelectionChanged) // Update this line
             Spacer(Modifier.padding(12.dp))
 
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier
-                        .clickable {  }
-                        .padding(8.dp)
-                        .align(Alignment.CenterEnd),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Text(
-                        text = "카테고리 편집",
-                        fontFamily = suitFamily,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 12.sp,
-                        color = text_third
-                    )
-                    Spacer(modifier = Modifier.width(1.dp))
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back Arrow",
-                        modifier = Modifier.size(16.dp),
-                        tint = text_third
-                    )
+            if (showEditButton) {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier
+                            .clickable { }
+                            .padding(8.dp)
+                            .align(Alignment.CenterEnd),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text(
+                            text = "카테고리 편집",
+                            fontFamily = suitFamily,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 12.sp,
+                            color = text_third
+                        )
+                        Spacer(modifier = Modifier.width(1.dp))
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back Arrow",
+                            modifier = Modifier.size(16.dp),
+                            tint = text_third
+                        )
+                    }
                 }
             }
         }
@@ -158,9 +175,10 @@ fun ToggleContent() {
 @Composable
 fun RadioButtonGroup(
     items: List<String>,
+    selectedItem: String?,
     onSelectionChanged: (String) -> Unit
 ) {
-    val (selectedItem, setSelectedItem) = remember { mutableStateOf<String?>(null) }
+    val setSelectedItem = rememberUpdatedState(selectedItem)
 
     Column {
         items.forEach { item ->
@@ -171,14 +189,13 @@ fun RadioButtonGroup(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = item == selectedItem,
+                    selected = item == setSelectedItem.value,
                     onClick = {
-                        setSelectedItem(item)
                         onSelectionChanged(item)
                     }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = item, modifier = Modifier.clickable { setSelectedItem(item) })
+                Text(text = item, modifier = Modifier.clickable { onSelectionChanged(item) })
             }
         }
     }

@@ -124,27 +124,32 @@ fun AddScheduleContent() {
         ToggleMenu(
             icon = painterResource("image/category.svg"),
             titleText = "카테고리",
-            toggleButtonText = "학교 외 1"
+            items = listOf("기본", "개인", "학교", "회사"),
+            showEditButton = true
         )
         ToggleMenu(
             icon = painterResource("image/time.svg"),
             titleText = "시간",
-            toggleButtonText = "하루종일"
+            items = listOf("*** 날짜, 시간 선택 팝업 구현 ***"),
+            showEditButton = false // todo: 날짜, 시간 선택 팝업 구현
         )
         ToggleMenu(
             icon = painterResource("image/account.svg"),
             titleText = "연동된 계정",
-            toggleButtonText = "구글 외 1"
+            items = listOf("Facebook", "Github", "Google", "Kakao"),
+            showEditButton = false
         )
         ToggleMenu(
             icon = painterResource("image/alarm.svg"),
             titleText = "알림",
-            toggleButtonText = "10분 전"
+            items = listOf("10분 전", "30분 전", "1시간 전", "하루 전"),
+            showEditButton = false
         )
         ToggleMenu(
             icon = painterResource("image/alarm2.svg"),
             titleText = "두 번째 알림",
-            toggleButtonText = "30분 전"
+            items = listOf("10분 전", "30분 전", "1시간 전", "하루 전"),
+            showEditButton = false
         )
         Spacer(Modifier.padding(12.dp))
         TextField(
