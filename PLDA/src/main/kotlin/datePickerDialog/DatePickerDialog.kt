@@ -1,3 +1,5 @@
+package datePickerDialog
+
 import UI.main_100
 import UI.suitFamily
 import UI.text_primary
@@ -16,11 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import numberPicker.YearsMonthsPicker
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun viewCalendarList(onDialogDismiss: () -> Unit) {
+fun DatePickerDialog(onDialogDismiss: () -> Unit) {
     AlertDialog(
             modifier = Modifier.size(400.dp, 300.dp),
             onDismissRequest = onDialogDismiss,
@@ -59,17 +60,17 @@ fun ConfirmButton(onClick: () -> Unit) {
     Box(modifier = Modifier.size(24.dp)) {
         Icon(
             Icons.Default.Check,
-            contentDescription = "Add",
+            contentDescription = "Check",
             modifier = Modifier
                 .size(24.dp)
-                .clickable(onClick = onClick),
+                .clickable(onClick = onClick), // todo: Confirm 버튼 누르면 창 닫기
             tint = main_100
         )
     }
 }
 
 @Composable
-private fun TextRow() {
+fun TextRow() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start,
