@@ -27,7 +27,7 @@ fun AppUI(
     onAddScheduleClick: () -> Unit,
 ) { // 툴바와 달력 레이아웃
     val year = 2023 // 현재 년도
-    val month = 12 //현재 월
+    val month = 10 //현재 월
     Column(
         modifier = Modifier
             .fillMaxSize()

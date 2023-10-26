@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun AddScheduleScreen(onDismiss: () -> Unit) {
+    var eventName by remember { mutableStateOf("") }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -37,16 +39,22 @@ fun AddScheduleScreen(onDismiss: () -> Unit) {
                 Modifier.padding(horizontal = 150.dp)
                     .padding(bottom = 16.dp)
             ) {
-                AddScheduleTopBar(onDismiss = onDismiss)
+                AddScheduleTopBar(onDismiss = onDismiss, onSave = {
+                    // 3. "완료" 버튼을 누르면 해당 이벤트를 `events` 맵에 저장합니다.
+                    addEventToDay(26, eventName)
+                })
                 Spacer(modifier = Modifier.padding(32.dp))
-                AddScheduleContent()
+                AddScheduleContent(onEventNameChange = { newName ->
+                    // 2. `TextField`에 대한 변경사항을 이 상태 변수에 반영합니다.
+                    eventName = newName
+                })
             }
         }
     }
 }
 
 @Composable
-fun AddScheduleTopBar(onDismiss: () -> Unit) {
+fun AddScheduleTopBar(onDismiss: () -> Unit, onSave: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopCenter
@@ -90,7 +98,7 @@ fun AddScheduleTopBar(onDismiss: () -> Unit) {
             modifier = Modifier
                 .clickable(onClick = {
                     onDismiss()
-                    // todo: 입력 내용 저장하는 기능 추가
+                    onSave()
                 })
                 .background(main_100, shape = RoundedCornerShape(8.dp))
                 .align(Alignment.TopEnd)
@@ -110,15 +118,17 @@ fun AddScheduleTopBar(onDismiss: () -> Unit) {
 }
 
 @Composable
-fun AddScheduleContent() {
+fun AddScheduleContent(onEventNameChange: (String) -> Unit) {
     val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier.verticalScroll(scrollState)
     ) {
-        TextField(
-            titleText = "일정 이름",
-            contentText = "제목을 입력해주세요."
+        onEventNameChange(
+            TextField(
+                titleText = "일정 이름",
+                contentText = "제목을 입력해주세요."
+            )
         )
         Spacer(Modifier.padding(12.dp))
         ToggleMenu(

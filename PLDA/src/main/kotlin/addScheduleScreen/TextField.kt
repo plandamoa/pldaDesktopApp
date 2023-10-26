@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 fun TextField(
     titleText: String,
     contentText: String
-) {
+): String {
     var textState = remember { mutableStateOf(TextFieldValue()) }
     var isFocused by remember { mutableStateOf(false) }
 
@@ -73,4 +73,5 @@ fun TextField(
         }
         Divider(color = gray_20)
     }
+    return textState.value.text
 }
