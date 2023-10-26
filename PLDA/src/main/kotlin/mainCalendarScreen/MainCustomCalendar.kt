@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -73,38 +74,17 @@ fun CustomCalendar(year: Int, month: Int) {
                     ) {
                         when {
                             i == 0 && j < firstDayOfWeek -> { // 이전 달의 날짜
-                                Text(
-                                    text = "$previousMonthDayToShow",
-                                    modifier = Modifier.padding(8.dp),
-                                    fontFamily = suitFamily,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 11.sp,
-                                    color = text_lowEmphasis
-                                )
+                                CalendarDayText("$previousMonthDayToShow", text_lowEmphasis)
                                 previousMonthDayToShow++
                             }
 
                             day <= daysInMonth -> { // 현재 달의 날짜
-                                Text(
-                                    text = "$day",
-                                    modifier = Modifier.padding(8.dp),
-                                    fontFamily = suitFamily,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 11.sp,
-                                    color = text_primary
-                                )
+                                CalendarDayText("$day", text_primary)
                                 day++
                             }
 
                             else -> { // 다음 달의 날짜
-                                Text(
-                                    text = "$nextMonthDay",
-                                    modifier = Modifier.padding(8.dp),
-                                    fontFamily = suitFamily,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 11.sp,
-                                    color = text_lowEmphasis
-                                )
+                                CalendarDayText("$nextMonthDay", text_lowEmphasis)
                                 nextMonthDay++
                             }
                         }
@@ -113,4 +93,16 @@ fun CustomCalendar(year: Int, month: Int) {
             }
         }
     }
+}
+
+@Composable
+fun CalendarDayText(text: String, color: Color) {
+    Text(
+        text = text,
+        modifier = Modifier.padding(8.dp),
+        fontFamily = suitFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 11.sp,
+        color = color
+    )
 }
