@@ -65,7 +65,7 @@ fun CustomCalendar(year: Int, month: Int) {
                     Box( // 날짜 영역 박스
                         modifier = Modifier
                             .weight(1f)
-                            .aspectRatio(1.8f)
+                            .aspectRatio(DAYS_VERTICAL_SIZE)
                             .clickable {
                                 /* 클릭 시 동작 */
                             },

@@ -21,25 +21,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AddScheduleScreen(isAddScreenVisible: MutableState<Boolean>, onDismiss: () -> Unit) {
-    if (isAddScreenVisible.value) {
+fun AddScheduleScreen(onDismiss: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(bg_white), // 뒷배경
+        contentAlignment = Alignment.Center
+    ) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .background(bg_white), // 뒷배경
-            contentAlignment = Alignment.Center
+                .padding(16.dp)
+                .background(bg_white), // 앞 메인 페이지
         ) {
-            Box(
-                modifier = Modifier.background(bg_white), // 앞 메인 페이지
+            Column(
+                Modifier.padding(horizontal = 150.dp)
+                    .padding(bottom = 16.dp)
             ) {
-                Column(
-                    Modifier.padding(horizontal = 150.dp)
-                        .padding(bottom = 16.dp)
-                ) {
-                    AddScheduleTopBar(onDismiss = onDismiss)
-                    Spacer(modifier = Modifier.padding(32.dp))
-                    AddScheduleContent()
-                }
+                AddScheduleTopBar(onDismiss = onDismiss)
+                Spacer(modifier = Modifier.padding(32.dp))
+                AddScheduleContent()
             }
         }
     }

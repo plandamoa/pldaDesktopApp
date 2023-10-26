@@ -23,33 +23,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 
 @Composable
-fun SettingScreen(isSettingScreenVisible: MutableState<Boolean>,  onDismiss: () -> Unit) {
-    if (isSettingScreenVisible.value) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(bg_white), // 뒷배경
-            contentAlignment = Alignment.Center
+fun SettingScreen(onDismiss: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .background(bg_white) // 뒷배경 제거하거나 필요한 크기로 조절
+            .zIndex(2f),  // zIndex 추가
+    ) {
+        Box(modifier = Modifier
+            .padding(16.dp)
+            .background(bg_white)
         ) {
-            Box(
-                modifier = Modifier.background(bg_white), // 앞 메인 페이지
+            Column(
+                Modifier.padding(horizontal = 150.dp)
+                    .padding(bottom = 16.dp)
+                    .fillMaxHeight()
             ) {
-                Column(
-                    Modifier.padding(horizontal = 150.dp)
-                        .padding(bottom = 16.dp)
-                        .fillMaxHeight()
-                ) {
-                    CustomTopBar(
-                        onDismiss = onDismiss,
-                        backButtonText = "홈으로",
-                        centerText = "설정",
-                        showRightButton = false
-                    )
-                    Spacer(modifier = Modifier.padding(32.dp))
-                    SettingContent()
-                }
+                CustomTopBar(
+                    onDismiss = onDismiss,
+                    backButtonText = "홈으로",
+                    centerText = "설정",
+                    showRightButton = false
+                )
+                Spacer(modifier = Modifier.padding(32.dp))
+                SettingContent()
             }
         }
     }

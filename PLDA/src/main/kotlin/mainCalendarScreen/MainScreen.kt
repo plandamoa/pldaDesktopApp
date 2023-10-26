@@ -22,7 +22,10 @@ import datePickerDialog.DatePickerDialog
 import settingScreen.SettingScreen
 
 @Composable
-fun AppUI() { // 툴바와 달력 레이아웃
+fun AppUI(
+    onSettingsClick: () -> Unit,
+    onAddScheduleClick: () -> Unit,
+) { // 툴바와 달력 레이아웃
     val year = 2023 // 현재 년도
     val month = 12 //현재 월
     Column(
@@ -32,7 +35,11 @@ fun AppUI() { // 툴바와 달력 레이아웃
             .padding(16.dp)
             .padding(start = 8.dp, end = 8.dp)
     ) {
-        TopAppBarLayout(year = year, month = month) // 상단 툴바
+        TopAppBarLayout(
+            year = year, month = month,
+            onSettingsClick = onSettingsClick,
+            onAddScheduleClick = onAddScheduleClick
+        ) // 상단 툴바
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -41,7 +48,11 @@ fun AppUI() { // 툴바와 달력 레이아웃
 }
 
 @Composable
-fun TopAppBarLayout(year: Int, month: Int) {
+fun TopAppBarLayout(
+    year: Int, month: Int,
+    onSettingsClick: () -> Unit,
+    onAddScheduleClick: () -> Unit
+) {
     Box(
         modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
         contentAlignment = Alignment.Center
@@ -54,7 +65,10 @@ fun TopAppBarLayout(year: Int, month: Int) {
 
 
         // 오른쪽: 검색 창, 일정 추가 버튼, 설정 버튼
-        TopAppBarRight()
+        TopAppBarRight(
+            onSettingsClick = onSettingsClick,
+            onAddScheduleClick = onAddScheduleClick
+        )
     }
 }
 
@@ -122,10 +136,10 @@ fun TopAppBarCenter(year: Int, month: Int) {
 }
 
 @Composable
-fun TopAppBarRight() {
-    val showAddScheduleDialog = remember { mutableStateOf(false) }
-    val showSettingScheduleDialog = remember { mutableStateOf(false) }
-
+fun TopAppBarRight(
+    onSettingsClick: () -> Unit,
+    onAddScheduleClick: () -> Unit
+) {
     Box(
         modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
     ) {
@@ -142,7 +156,7 @@ fun TopAppBarRight() {
                     contentDescription = "Add",
                     modifier = Modifier
                         .size(24.dp)
-                        .clickable(onClick = { showAddScheduleDialog.value = true })
+                        .clickable(onClick = { onAddScheduleClick() })
                 )
             }
 
@@ -152,21 +166,9 @@ fun TopAppBarRight() {
                     contentDescription = "Settings",
                     modifier = Modifier
                         .size(24.dp)
-                        .clickable(onClick = { showSettingScheduleDialog.value = true })
+                        .clickable(onClick = { onSettingsClick() })
                 )
             }
         }
-    }
-    if (showAddScheduleDialog.value) {
-        AddScheduleScreen(
-            isAddScreenVisible = showAddScheduleDialog,
-            onDismiss = { showAddScheduleDialog.value = false }
-        )
-    }
-    if (showSettingScheduleDialog.value) {
-        SettingScreen(
-            isSettingScreenVisible = showSettingScheduleDialog,
-            onDismiss = { showSettingScheduleDialog.value = false }
-        )
     }
 }
