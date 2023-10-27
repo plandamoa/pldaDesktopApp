@@ -131,7 +131,7 @@ fun AddScheduleContent(onEventNameChange: (String) -> Unit) {
         modifier = Modifier.verticalScroll(scrollState)
     ) {
         onEventNameChange(
-            TextField(
+            TitleInputField(
                 titleText = "일정 이름",
                 contentText = "제목을 입력해주세요."
             )
@@ -143,12 +143,14 @@ fun AddScheduleContent(onEventNameChange: (String) -> Unit) {
             items = listOf("기본", "개인", "학교", "회사"),
             showEditButton = true
         )
-        ToggleMenu(
-            icon = painterResource("image/time.svg"),
-            titleText = "시간",
-            items = listOf("*** 날짜, 시간 선택 팝업 구현 ***"),
-            showEditButton = false // todo: 날짜, 시간 선택 팝업 구현
+        Spacer(Modifier.padding(12.dp))
+        DateInputField(
+            titleText = "날짜 선택",
+            onDateChange = { date ->
+                println("Selected date: $date")
+            }
         )
+        Spacer(Modifier.padding(12.dp))
         ToggleMenu(
             icon = painterResource("image/account.svg"),
             titleText = "연동된 계정",
@@ -168,7 +170,7 @@ fun AddScheduleContent(onEventNameChange: (String) -> Unit) {
             showEditButton = false
         )
         Spacer(Modifier.padding(12.dp))
-        TextField(
+        TitleInputField(
             titleText = "메모",
             contentText = "메모를 입력해주세요."
         )

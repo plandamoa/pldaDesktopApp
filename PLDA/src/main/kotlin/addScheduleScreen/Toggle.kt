@@ -42,7 +42,7 @@ fun ToggleMenu(
         ToggleTopBar(
             icon = icon,
             titleText = titleText,
-            toggleButtonText = displaySelectedItems.ifEmpty { " " },
+            toggleButtonText = if (displaySelectedItems.isNotEmpty()) displaySelectedItems else " ",
             onToggleClick = { isContentVisible = !isContentVisible } // Explicitly name the lambda argument
         )
         if (isContentVisible) {
@@ -51,10 +51,10 @@ fun ToggleMenu(
                 showEditButton = showEditButton,
                 selectedItem = selectedItems
             ) { item ->
-                selectedItems = if (selectedItems.contains(item)) {
-                    selectedItems - item
+                if (selectedItems.contains(item)) {
+                    selectedItems = selectedItems - item
                 } else {
-                    selectedItems + item
+                    selectedItems = selectedItems + item
                 }
             }
         }
@@ -217,3 +217,4 @@ fun CheckboxGroup(
         }
     }
 }
+
