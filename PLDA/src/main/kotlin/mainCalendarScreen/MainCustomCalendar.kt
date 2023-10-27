@@ -1,6 +1,7 @@
 package mainCalendarScreen
 
 import UI.*
+import addScheduleScreen.events
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
