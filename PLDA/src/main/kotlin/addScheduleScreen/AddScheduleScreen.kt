@@ -19,10 +19,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun AddScheduleScreen(onDismiss: () -> Unit) {
     var eventName by remember { mutableStateOf("") }
+    var selectedDate by remember { mutableStateOf(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))) }
 
     Box(
         modifier = Modifier
@@ -42,15 +45,19 @@ fun AddScheduleScreen(onDismiss: () -> Unit) {
                 AddScheduleTopBar(
                     onDismiss = onDismiss,
                     onSave = {
-                        addEventToDay(26, eventName)
+                        addEventToDay(selectedDate, eventName) // passing the selected date here
                     },
                     isSaveButtonEnabled = eventName.isNotEmpty()
                 )
                 Spacer(modifier = Modifier.padding(32.dp))
-                AddScheduleContent(onEventNameChange = { newName ->
-                    // 2. `TextField`에 대한 변경사항을 이 상태 변수에 반영합니다.
-                    eventName = newName
-                })
+                AddScheduleContent(
+                    onEventNameChange = { newName ->
+                        eventName = newName
+                    },
+                    onDateChange = { date ->
+                        selectedDate = date
+                    }
+                )
             }
         }
     }
@@ -124,18 +131,24 @@ fun AddScheduleTopBar(
 }
 
 @Composable
-fun AddScheduleContent(onEventNameChange: (String) -> Unit) {
+fun AddScheduleContent(
+    onEventNameChange: (String) -> Unit,
+    onDateChange: (String) -> Unit
+) {
     val scrollState = rememberScrollState()
+    var selectedDate by remember {
+        mutableStateOf(LocalDate.now()
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+    }
 
     Column(
         modifier = Modifier.verticalScroll(scrollState)
     ) {
-        onEventNameChange(
-            TitleInputField(
-                titleText = "일정 이름",
-                contentText = "제목을 입력해주세요."
-            )
+        val eventName = TitleInputField(
+            titleText = "일정 이름",
+            contentText = "제목을 입력해주세요."
         )
+        onEventNameChange(eventName)
         Spacer(Modifier.padding(12.dp))
         ToggleMenu(
             icon = painterResource("image/category.svg"),
@@ -147,7 +160,8 @@ fun AddScheduleContent(onEventNameChange: (String) -> Unit) {
         DateInputField(
             titleText = "날짜 선택",
             onDateChange = { date ->
-                println("Selected date: $date")
+                selectedDate = date
+                onDateChange(date)
             }
         )
         Spacer(Modifier.padding(12.dp))

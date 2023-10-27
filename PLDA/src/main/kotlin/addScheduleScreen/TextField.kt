@@ -42,7 +42,7 @@ fun DateInputField(
     InputField(
         titleText = titleText,
         defaultText = defaultText,
-        onTextChanged = onDateChange
+        onTextChanged = onDateChange // this will update the selected date
     )
 }
 
