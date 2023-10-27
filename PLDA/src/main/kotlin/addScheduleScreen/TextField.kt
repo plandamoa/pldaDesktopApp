@@ -22,59 +22,15 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
-    titleText: String,
-    contentText: String
-): String {
-    val textState = remember { mutableStateOf(TextFieldValue()) }
-    var isFocused by remember { mutableStateOf(false) }
-
-    Column {
-        Text(
-            text = titleText,
-            fontFamily = suitFamily,
-            fontWeight = FontWeight.Medium,
-            fontSize = 12.sp,
-            color = text_primary
-        )
-        Spacer(modifier = Modifier.padding(8.dp))
-
-        Box(modifier = Modifier.fillMaxWidth()) {
-            BasicTextField(
-                value = textState.value,
-                onValueChange = {
-                    textState.value = it
-                },
-                textStyle = TextStyle(
-                    color = text_primary,
-                    fontFamily = suitFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 20.sp,
-                ),
-                modifier = Modifier
-                    .background(Color.White)
-                    .fillMaxWidth()
-                    .size(50.dp)
-                    .padding(end = 48.dp).padding(vertical = 5.dp)
-                    .onFocusChanged { focusState ->
-                        isFocused = focusState.isFocused },
-                singleLine = true
-            )
-            if (!isFocused && textState.value.text.isEmpty()) { // Use value property to get the underlying value
-                Text(
-                    text = contentText,
-                    color = text_lowEmphasis,
-                    fontFamily = suitFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 20.sp,
-                    modifier = Modifier
-                        .padding(end = 48.dp)
-                        .padding(vertical = 5.dp)
-                )
-            }
-        }
-        Divider(color = gray_20)
-    }
-    return textState.value.text
+fun TitleInputField(titleText: String, contentText: String): String {
+    var titleValue by remember { mutableStateOf("") }
+    InputField(
+        titleText = titleText,
+        defaultText = "",
+        onTextChanged = { titleValue = it },
+        placeholderText = contentText
+    )
+    return titleValue
 }
 
 @Composable
@@ -83,7 +39,21 @@ fun DateInputField(
     defaultText: String = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
     onDateChange: (String) -> Unit
 ) {
-    val textState = remember { mutableStateOf(TextFieldValue(defaultText)) }
+    InputField(
+        titleText = titleText,
+        defaultText = defaultText,
+        onTextChanged = onDateChange
+    )
+}
+
+@Composable
+fun InputField(
+    titleText: String,
+    defaultText: String,
+    onTextChanged: (String) -> Unit,
+    placeholderText: String = ""
+) {
+    var textState = remember { mutableStateOf(TextFieldValue(defaultText)) }
     var isFocused by remember { mutableStateOf(false) }
 
     Column {
@@ -101,7 +71,7 @@ fun DateInputField(
                 value = textState.value,
                 onValueChange = {
                     textState.value = it
-                    onDateChange(it.text) // notify date change
+                    onTextChanged(it.text)
                 },
                 textStyle = TextStyle(
                     color = text_primary,
@@ -121,7 +91,7 @@ fun DateInputField(
             )
             if (!isFocused && textState.value.text.isEmpty()) {
                 Text(
-                    text = defaultText,
+                    text = placeholderText,
                     color = text_lowEmphasis,
                     fontFamily = suitFamily,
                     fontWeight = FontWeight.SemiBold,
