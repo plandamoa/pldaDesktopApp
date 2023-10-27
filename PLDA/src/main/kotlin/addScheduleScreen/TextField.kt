@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 @Composable
 fun TitleInputField(titleText: String, contentText: String): String {
@@ -42,7 +43,11 @@ fun DateInputField(
     InputField(
         titleText = titleText,
         defaultText = defaultText,
-        onTextChanged = onDateChange // this will update the selected date
+        onTextChanged = { newText ->
+            val normalizedDate = normalizeDateInput(newText)
+            onDateChange(normalizedDate)
+        },
+        placeholderText = "yyyy-MM-dd or yyyy-M-d"
     )
 }
 
@@ -103,5 +108,14 @@ fun InputField(
             }
         }
         Divider(color = gray_20)
+    }
+}
+
+fun normalizeDateInput(dateStr: String): String {
+    return try {
+        val date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-M-d"))
+        date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    } catch (e: DateTimeParseException) {
+        dateStr // Return the original string if parsing fails
     }
 }
