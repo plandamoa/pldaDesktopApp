@@ -1,6 +1,7 @@
 package mainCalendarScreen
 
 import UI.*
+import addScheduleScreen.events
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,13 +46,12 @@ fun CustomCalendar(year: Int, month: Int) {
         ) {
             listOf("일", "월", "화", "수", "목", "금", "토").forEach { day ->
                 Text(
-                    day,
-                    modifier = Modifier.weight(1f),
+                    day, modifier = Modifier.weight(1f),
                     fontFamily = suitFamily,
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = 13.sp,
+                    fontSize = 14.sp,
                     color = if (day == "일") sundayRed
-                    else dayOfTheWeekGray,
+                                else dayOfTheWeekGray,
                     textAlign = TextAlign.Center
                 )
             }
@@ -70,8 +70,7 @@ fun CustomCalendar(year: Int, month: Int) {
                 for (j in 0..6) {
                     Box( // 날짜 영역 박스
                         modifier = Modifier
-                            .padding(1.dp)
-                            .weight(1f)
+                            .padding(1.dp).weight(1f)
                             .aspectRatio(DAYS_VERTICAL_SIZE)
                             .combinedClickable(
                                 onDoubleClick = { println("clicked") }
@@ -94,7 +93,7 @@ fun CustomCalendar(year: Int, month: Int) {
                                     events[day]?.forEachIndexed { index, eventName ->
                                         // Limit the number of events to 3 for this example
                                         if (index < 3) {
-                                            EventBox(eventName, Color.Gray)
+                                            EventBox(eventName, Color.Gray, year, month, day)
                                             Spacer(Modifier.padding(1.dp))
                                         }
                                     }
@@ -121,7 +120,7 @@ fun CalendarDayText(text: String, color: Color) {
         text = text,
         fontFamily = suitFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 12.sp,
+        fontSize = 13.sp,
         color = color,
         textAlign = TextAlign.End
     )

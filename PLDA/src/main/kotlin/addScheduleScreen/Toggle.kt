@@ -4,13 +4,12 @@ import UI.*
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Checkbox
 import androidx.compose.material.Icon
-import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -18,7 +17,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,24 +30,33 @@ fun ToggleMenu(
     showEditButton: Boolean = true
 ) {
     var isContentVisible by remember { mutableStateOf(false) }
-    var selectedItem by remember { mutableStateOf<String?>(null)}
+    var selectedItems by remember { mutableStateOf(listOf<String>()) }
 
+    // selectedItems 리스트의 항목을 연결하여 문자열로 변환합니다.
+    val displaySelectedItems = when {
+        selectedItems.isEmpty() -> " "
+        selectedItems.size == 1 -> selectedItems.first()
+        else -> "${selectedItems.first()} 외 ${selectedItems.size - 1}개"
+    }
     Column {
         ToggleTopBar(
             icon = icon,
             titleText = titleText,
-            toggleButtonText = selectedItem ?: " ", // Explicitly name the argument
+            toggleButtonText = if (displaySelectedItems.isNotEmpty()) displaySelectedItems else " ",
             onToggleClick = { isContentVisible = !isContentVisible } // Explicitly name the lambda argument
         )
         if (isContentVisible) {
             ToggleContent(
                 items = items,
                 showEditButton = showEditButton,
-                selectedItem = selectedItem,
-                onSelectionChanged = { newSelectedItem -> // Explicitly name the lambda argument
-                    selectedItem = newSelectedItem
+                selectedItem = selectedItems
+            ) { item ->
+                if (selectedItems.contains(item)) {
+                    selectedItems = selectedItems - item
+                } else {
+                    selectedItems = selectedItems + item
                 }
-            )
+            }
         }
     }
 }
@@ -120,7 +127,7 @@ fun ToggleTopBar(
 fun ToggleContent(
     items: List<String>,
     showEditButton: Boolean = true,
-    selectedItem: String?,
+    selectedItem: List<String>,
     onSelectionChanged: (String) -> Unit
 ) {
     val isVisible = remember { mutableStateOf(true) }
@@ -139,7 +146,7 @@ fun ToggleContent(
         .padding(24.dp)
     ) {
         Column {
-            RadioButtonGroup(items, selectedItem, onSelectionChanged) // Update this line
+            CheckboxGroup(items, selectedItem, onSelectionChanged) // Update this line
             Spacer(Modifier.padding(12.dp))
 
             if (showEditButton) {
@@ -173,12 +180,12 @@ fun ToggleContent(
 }
 
 @Composable
-fun RadioButtonGroup(
+fun CheckboxGroup(
     items: List<String>,
-    selectedItem: String?,
+    selectedItem: List<String>,
     onSelectionChanged: (String) -> Unit
 ) {
-    val setSelectedItem = rememberUpdatedState(selectedItem)
+    val setSelectedItems = rememberUpdatedState(selectedItem)
 
     Column {
         items.forEach { item ->
@@ -188,15 +195,26 @@ fun RadioButtonGroup(
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                RadioButton(
-                    selected = item == setSelectedItem.value,
-                    onClick = {
-                        onSelectionChanged(item)
+                Checkbox(
+                    checked = setSelectedItems.value.contains(item),
+                    onCheckedChange = {
+                        if (it) { // 체크됐을 경우 항목을 추가
+                            onSelectionChanged(item)
+                        } else { // 체크 해제됐을 경우 항목을 제거
+                            onSelectionChanged(item)
+                        }
                     }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = item, modifier = Modifier.clickable { onSelectionChanged(item) })
+                Text(text = item, modifier = Modifier.clickable {
+                    if (setSelectedItems.value.contains(item)) {
+                        onSelectionChanged(item)
+                    } else {
+                        onSelectionChanged(item)
+                    }
+                })
             }
         }
     }
 }
+

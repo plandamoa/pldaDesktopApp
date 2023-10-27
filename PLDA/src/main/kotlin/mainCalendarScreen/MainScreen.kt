@@ -41,7 +41,7 @@ fun AppUI(
             onAddScheduleClick = onAddScheduleClick
         ) // 상단 툴바
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         CustomCalendar(year = year, month = month) // 달력
     }
@@ -85,13 +85,13 @@ fun TopAppBarLeft() {
             Image(
                 painter = painterResource("image/plda.png"),
                 contentDescription = "PLDA Logo",
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(32.dp)
             )
             Text(
                 text = "PLDA",
                 fontFamily = suitFamily,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 16.sp,
+                fontSize = 17.sp,
                 color = gray_100
             )
         }
@@ -117,7 +117,7 @@ fun TopAppBarCenter(year: Int, month: Int) {
                 text = "${year}년 ${month}월",
                 fontFamily = suitFamily,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp,
+                fontSize = 19.sp,
                 color = text_primary
             )
             Icon(
@@ -125,7 +125,7 @@ fun TopAppBarCenter(year: Int, month: Int) {
                 contentDescription = "Drop Down Arrow",
                 tint = gray_40,
                 modifier = Modifier
-                    .size(16.dp)
+                    .size(18.dp)
                     .padding(start = 4.dp)
             )
         }

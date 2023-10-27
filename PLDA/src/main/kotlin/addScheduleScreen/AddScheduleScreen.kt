@@ -19,10 +19,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun AddScheduleScreen(onDismiss: () -> Unit) {
     var eventName by remember { mutableStateOf("") }
+    var selectedDate by remember { mutableStateOf(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))) }
 
     Box(
         modifier = Modifier
@@ -39,22 +42,32 @@ fun AddScheduleScreen(onDismiss: () -> Unit) {
                 Modifier.padding(horizontal = 150.dp)
                     .padding(bottom = 16.dp)
             ) {
-                AddScheduleTopBar(onDismiss = onDismiss, onSave = {
-                    // 3. "완료" 버튼을 누르면 해당 이벤트를 `events` 맵에 저장합니다.
-                    addEventToDay(26, eventName)
-                })
+                AddScheduleTopBar(
+                    onDismiss = onDismiss,
+                    onSave = {
+                        addEventToDay(selectedDate, eventName) // passing the selected date here
+                    },
+                    isSaveButtonEnabled = eventName.isNotEmpty()
+                )
                 Spacer(modifier = Modifier.padding(32.dp))
-                AddScheduleContent(onEventNameChange = { newName ->
-                    // 2. `TextField`에 대한 변경사항을 이 상태 변수에 반영합니다.
-                    eventName = newName
-                })
+                AddScheduleContent(
+                    onEventNameChange = { newName ->
+                        eventName = newName
+                    },
+                    onDateChange = { date ->
+                        selectedDate = date
+                    }
+                )
             }
         }
     }
 }
 
 @Composable
-fun AddScheduleTopBar(onDismiss: () -> Unit, onSave: () -> Unit) {
+fun AddScheduleTopBar(
+    onDismiss: () -> Unit, onSave: () -> Unit,
+    isSaveButtonEnabled: Boolean
+) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopCenter
@@ -96,11 +109,11 @@ fun AddScheduleTopBar(onDismiss: () -> Unit, onSave: () -> Unit) {
         // 오른쪽: 완료 버튼
         Box(
             modifier = Modifier
-                .clickable(onClick = {
+                .clickable(enabled = isSaveButtonEnabled, onClick = {
                     onDismiss()
                     onSave()
                 })
-                .background(main_100, shape = RoundedCornerShape(8.dp))
+                .background(if (isSaveButtonEnabled) main_100 else gray_20, shape = RoundedCornerShape(8.dp))
                 .align(Alignment.TopEnd)
                 .size(width = 64.dp, height = 32.dp),
             contentAlignment = Alignment.Center  // 내부 컴포넌트를 중앙에 배치
@@ -111,25 +124,31 @@ fun AddScheduleTopBar(onDismiss: () -> Unit, onSave: () -> Unit) {
                 fontWeight = FontWeight.Medium,
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center,
-                color = Color.White  // 버튼의 글자 색을 흰색으로 변경
+                color = if (isSaveButtonEnabled) Color.White else Color.White
             )
         }
     }
 }
 
 @Composable
-fun AddScheduleContent(onEventNameChange: (String) -> Unit) {
+fun AddScheduleContent(
+    onEventNameChange: (String) -> Unit,
+    onDateChange: (String) -> Unit
+) {
     val scrollState = rememberScrollState()
+    var selectedDate by remember {
+        mutableStateOf(LocalDate.now()
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+    }
 
     Column(
         modifier = Modifier.verticalScroll(scrollState)
     ) {
-        onEventNameChange(
-            TextField(
-                titleText = "일정 이름",
-                contentText = "제목을 입력해주세요."
-            )
+        val eventName = TitleInputField(
+            titleText = "일정 이름",
+            contentText = "제목을 입력해주세요."
         )
+        onEventNameChange(eventName)
         Spacer(Modifier.padding(12.dp))
         ToggleMenu(
             icon = painterResource("image/category.svg"),
@@ -137,12 +156,15 @@ fun AddScheduleContent(onEventNameChange: (String) -> Unit) {
             items = listOf("기본", "개인", "학교", "회사"),
             showEditButton = true
         )
-        ToggleMenu(
-            icon = painterResource("image/time.svg"),
-            titleText = "시간",
-            items = listOf("*** 날짜, 시간 선택 팝업 구현 ***"),
-            showEditButton = false // todo: 날짜, 시간 선택 팝업 구현
+        Spacer(Modifier.padding(12.dp))
+        DateInputField(
+            titleText = "날짜 선택",
+            onDateChange = { date ->
+                selectedDate = date
+                onDateChange(date)
+            }
         )
+        Spacer(Modifier.padding(12.dp))
         ToggleMenu(
             icon = painterResource("image/account.svg"),
             titleText = "연동된 계정",
@@ -162,7 +184,7 @@ fun AddScheduleContent(onEventNameChange: (String) -> Unit) {
             showEditButton = false
         )
         Spacer(Modifier.padding(12.dp))
-        TextField(
+        TitleInputField(
             titleText = "메모",
             contentText = "메모를 입력해주세요."
         )

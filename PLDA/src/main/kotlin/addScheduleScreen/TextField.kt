@@ -18,13 +18,47 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 @Composable
-fun TextField(
+fun TitleInputField(titleText: String, contentText: String): String {
+    var titleValue by remember { mutableStateOf("") }
+    InputField(
+        titleText = titleText,
+        defaultText = "",
+        onTextChanged = { titleValue = it },
+        placeholderText = contentText
+    )
+    return titleValue
+}
+
+@Composable
+fun DateInputField(
+    titleText: String = "날짜",
+    defaultText: String = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+    onDateChange: (String) -> Unit
+) {
+    InputField(
+        titleText = titleText,
+        defaultText = defaultText,
+        onTextChanged = { newText ->
+            val normalizedDate = normalizeDateInput(newText)
+            onDateChange(normalizedDate)
+        },
+        placeholderText = "yyyy-MM-dd or yyyy-M-d"
+    )
+}
+
+@Composable
+fun InputField(
     titleText: String,
-    contentText: String
-): String {
-    var textState = remember { mutableStateOf(TextFieldValue()) }
+    defaultText: String,
+    onTextChanged: (String) -> Unit,
+    placeholderText: String = ""
+) {
+    var textState = remember { mutableStateOf(TextFieldValue(defaultText)) }
     var isFocused by remember { mutableStateOf(false) }
 
     Column {
@@ -42,6 +76,7 @@ fun TextField(
                 value = textState.value,
                 onValueChange = {
                     textState.value = it
+                    onTextChanged(it.text)
                 },
                 textStyle = TextStyle(
                     color = text_primary,
@@ -55,12 +90,13 @@ fun TextField(
                     .size(50.dp)
                     .padding(end = 48.dp).padding(vertical = 5.dp)
                     .onFocusChanged { focusState ->
-                        isFocused = focusState.isFocused },
+                        isFocused = focusState.isFocused
+                    },
                 singleLine = true
             )
-            if (!isFocused && textState.value.text.isEmpty()) { // Use value property to get the underlying value
+            if (!isFocused && textState.value.text.isEmpty()) {
                 Text(
-                    text = contentText,
+                    text = placeholderText,
                     color = text_lowEmphasis,
                     fontFamily = suitFamily,
                     fontWeight = FontWeight.SemiBold,
@@ -73,5 +109,13 @@ fun TextField(
         }
         Divider(color = gray_20)
     }
-    return textState.value.text
+}
+
+fun normalizeDateInput(dateStr: String): String {
+    return try {
+        val date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-M-d"))
+        date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    } catch (e: DateTimeParseException) {
+        dateStr // Return the original string if parsing fails
+    }
 }
