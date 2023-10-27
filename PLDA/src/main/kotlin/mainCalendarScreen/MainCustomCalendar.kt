@@ -46,13 +46,12 @@ fun CustomCalendar(year: Int, month: Int) {
         ) {
             listOf("일", "월", "화", "수", "목", "금", "토").forEach { day ->
                 Text(
-                    day,
-                    modifier = Modifier.weight(1f),
+                    day, modifier = Modifier.weight(1f),
                     fontFamily = suitFamily,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 13.sp,
                     color = if (day == "일") sundayRed
-                    else dayOfTheWeekGray,
+                                else dayOfTheWeekGray,
                     textAlign = TextAlign.Center
                 )
             }
@@ -71,8 +70,7 @@ fun CustomCalendar(year: Int, month: Int) {
                 for (j in 0..6) {
                     Box( // 날짜 영역 박스
                         modifier = Modifier
-                            .padding(1.dp)
-                            .weight(1f)
+                            .padding(1.dp).weight(1f)
                             .aspectRatio(DAYS_VERTICAL_SIZE)
                             .combinedClickable(
                                 onDoubleClick = { println("clicked") }

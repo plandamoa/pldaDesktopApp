@@ -1,6 +1,7 @@
 package viewListEventsScreen
 
 import UI.*
+import addScheduleScreen.events
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,26 +20,67 @@ import java.time.LocalDate
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ViewEventListDialog(year: Int, month: Int, day: Int, onDialogDismiss: () -> Unit) {
+fun ViewEventListDialog(
+    year: Int, month: Int, day: Int,
+    onDialogDismiss: () -> Unit
+) {
     AlertDialog(
-        modifier = Modifier
-            .size(500.dp, 500.dp),
+        modifier = Modifier.size(500.dp, 500.dp),
         onDismissRequest = onDialogDismiss,
-        title = { TopText(year, month, day)},
+        title = { TopText(year, month, day) },
         text = {
             Column {
                 Text(
                     text = "",
                     fontSize = 1.sp
                 )
-                EventViewBox()
-                EventViewBox()
+                // 해당 날짜의 이벤트 리스트를 가져와 각 이벤트에 대해 EventViewBox()를 호출
+                events[day]?.forEach { event ->
+                    EventViewBox(eventName = event)
+                }
             }
         },
         shape = RoundedCornerShape(16.dp),
         confirmButton = { },
         backgroundColor = bg_gray
     )
+}
+
+@Composable
+fun EventViewBox(eventName: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(bg_white, shape = RoundedCornerShape(8.dp))
+            .padding(24.dp)
+    ) {
+        Column {
+            Row(modifier = Modifier.padding(vertical = 4.dp)) {
+                Text(
+                    text = "from 구글캘린더",
+                    fontFamily = suitFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 12.sp,
+                    color = text_third
+                )
+            }
+            Text(
+                text = eventName,
+                fontFamily = suitFamily,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp,
+                color = text_primary
+            )
+            Text(
+                text = "10:00",
+                fontFamily = suitFamily,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 11.sp,
+                color = text_secondary
+            )
+        }
+    }
+    Spacer(Modifier.padding(4.dp))
 }
 
 @Composable
@@ -61,7 +103,7 @@ fun TopText(year: Int, month: Int, day: Int) {
     } else {
         "${month}월 ${day}일 $dayOfWeekInKorean"
     }
-    Column() {
+    Column {
         Spacer(Modifier.padding(16.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -78,41 +120,3 @@ fun TopText(year: Int, month: Int, day: Int) {
         }
     }
 }
-
-@Composable
-fun EventViewBox() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(bg_white, shape = RoundedCornerShape(8.dp))
-            .padding(24.dp)
-    ) {
-        Column {
-            Row(modifier = Modifier.padding(vertical = 4.dp)) {
-                Text(
-                    text = "from 구글캘린더",
-                    fontFamily = suitFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 12.sp,
-                    color = text_third
-                )
-            }
-            Text(
-                text = "공과금 자동이체",
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp,
-                color = text_primary
-            )
-            Text(
-                text = "10:00",
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 11.sp,
-                color = text_secondary
-            )
-        }
-    }
-    Spacer(Modifier.padding(4.dp))
-}
-
