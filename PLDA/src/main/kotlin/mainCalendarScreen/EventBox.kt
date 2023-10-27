@@ -21,7 +21,7 @@ import datePickerDialog.DatePickerDialog
 import viewListEventsScreen.ViewEventListDialog
 
 @Composable
-fun EventBox(text: String, backgroundColor: Color) {
+fun EventBox(text: String, backgroundColor: Color, year: Int, month: Int, day: Int) {
     var showEventListDialog by remember { mutableStateOf(false) }
 
     Box(
@@ -44,6 +44,6 @@ fun EventBox(text: String, backgroundColor: Color) {
     }
 
     if (showEventListDialog) {
-        ViewEventListDialog() { showEventListDialog = false }
+        ViewEventListDialog(year = year, month = month, day = day) { showEventListDialog = false }
     }
 }

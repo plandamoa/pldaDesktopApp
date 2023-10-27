@@ -13,16 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.time.DayOfWeek
+import java.time.LocalDate
 
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ViewEventListDialog(onDialogDismiss: () -> Unit) {
+fun ViewEventListDialog(year: Int, month: Int, day: Int, onDialogDismiss: () -> Unit) {
     AlertDialog(
         modifier = Modifier
             .size(500.dp, 500.dp),
         onDismissRequest = onDialogDismiss,
-        title = { TopText() },
+        title = { TopText(year, month, day)},
         text = {
             Column {
                 Text(
@@ -40,7 +42,25 @@ fun ViewEventListDialog(onDialogDismiss: () -> Unit) {
 }
 
 @Composable
-fun TopText() {
+fun TopText(year: Int, month: Int, day: Int) {
+    val date = LocalDate.of(year, month, day)
+    val dayOfWeekInKorean = when(date.dayOfWeek) {
+        DayOfWeek.MONDAY -> "월요일"
+        DayOfWeek.TUESDAY -> "화요일"
+        DayOfWeek.WEDNESDAY -> "수요일"
+        DayOfWeek.THURSDAY -> "목요일"
+        DayOfWeek.FRIDAY -> "금요일"
+        DayOfWeek.SATURDAY -> "토요일"
+        DayOfWeek.SUNDAY -> "일요일"
+    }
+
+    // 오늘 날짜와 선택한 날짜가 동일한 경우 "오늘" 텍스트를 추가합니다.
+    val isToday = date == LocalDate.now()
+    val displayText = if(isToday) {
+        "${month}월 ${day}일 $dayOfWeekInKorean (오늘)"
+    } else {
+        "${month}월 ${day}일 $dayOfWeekInKorean"
+    }
     Column() {
         Spacer(Modifier.padding(16.dp))
         Row(
@@ -49,7 +69,7 @@ fun TopText() {
         ) {
             // todo: 아이콘
             Text(
-                text = "10월 26일 수요일 (오늘)",
+                text = displayText,
                 fontFamily = suitFamily,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp,
@@ -95,3 +115,4 @@ fun EventViewBox() {
     }
     Spacer(Modifier.padding(4.dp))
 }
+

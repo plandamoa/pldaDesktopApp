@@ -95,7 +95,7 @@ fun CustomCalendar(year: Int, month: Int) {
                                     events[day]?.forEachIndexed { index, eventName ->
                                         // Limit the number of events to 3 for this example
                                         if (index < 3) {
-                                            EventBox(eventName, Color.Gray)
+                                            EventBox(eventName, Color.Gray, year, month, day)
                                             Spacer(Modifier.padding(1.dp))
                                         }
                                     }
