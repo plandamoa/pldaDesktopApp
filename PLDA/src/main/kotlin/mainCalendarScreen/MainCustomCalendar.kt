@@ -49,7 +49,7 @@ fun CustomCalendar(year: Int, month: Int) {
                     day, modifier = Modifier.weight(1f),
                     fontFamily = suitFamily,
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = 13.sp,
+                    fontSize = 14.sp,
                     color = if (day == "일") sundayRed
                                 else dayOfTheWeekGray,
                     textAlign = TextAlign.Center
@@ -120,7 +120,7 @@ fun CalendarDayText(text: String, color: Color) {
         text = text,
         fontFamily = suitFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 12.sp,
+        fontSize = 13.sp,
         color = color,
         textAlign = TextAlign.End
     )

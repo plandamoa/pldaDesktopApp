@@ -25,7 +25,7 @@ fun ViewEventListDialog(
     onDialogDismiss: () -> Unit
 ) {
     AlertDialog(
-        modifier = Modifier.size(500.dp, 500.dp),
+        modifier = Modifier.size(500.dp, 450.dp),
         onDismissRequest = onDialogDismiss,
         title = { TopText(year, month, day) },
         text = {
