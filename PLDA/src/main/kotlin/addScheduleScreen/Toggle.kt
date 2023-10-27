@@ -42,7 +42,7 @@ fun ToggleMenu(
         ToggleTopBar(
             icon = icon,
             titleText = titleText,
-            toggleButtonText = if (displaySelectedItems.isNotEmpty()) displaySelectedItems else " ",
+            toggleButtonText = displaySelectedItems.ifEmpty { " " },
             onToggleClick = { isContentVisible = !isContentVisible } // Explicitly name the lambda argument
         )
         if (isContentVisible) {
@@ -51,10 +51,10 @@ fun ToggleMenu(
                 showEditButton = showEditButton,
                 selectedItem = selectedItems
             ) { item ->
-                if (selectedItems.contains(item)) {
-                    selectedItems = selectedItems - item
+                selectedItems = if (selectedItems.contains(item)) {
+                    selectedItems - item
                 } else {
-                    selectedItems = selectedItems + item
+                    selectedItems + item
                 }
             }
         }
@@ -195,21 +195,19 @@ fun CheckboxGroup(
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                setSelectedItems.value?.let {
-                    Checkbox(
-                        checked = it.contains(item),
-                        onCheckedChange = {
-                            if (it) { // 체크됐을 경우 항목을 추가
-                                onSelectionChanged(item)
-                            } else { // 체크 해제됐을 경우 항목을 제거
-                                onSelectionChanged(item)
-                            }
+                Checkbox(
+                    checked = setSelectedItems.value.contains(item),
+                    onCheckedChange = {
+                        if (it) { // 체크됐을 경우 항목을 추가
+                            onSelectionChanged(item)
+                        } else { // 체크 해제됐을 경우 항목을 제거
+                            onSelectionChanged(item)
                         }
-                    )
-                }
+                    }
+                )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(text = item, modifier = Modifier.clickable {
-                    if (setSelectedItems.value?.contains(item) == true) {
+                    if (setSelectedItems.value.contains(item)) {
                         onSelectionChanged(item)
                     } else {
                         onSelectionChanged(item)

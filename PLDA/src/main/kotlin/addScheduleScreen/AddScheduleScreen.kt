@@ -39,10 +39,13 @@ fun AddScheduleScreen(onDismiss: () -> Unit) {
                 Modifier.padding(horizontal = 150.dp)
                     .padding(bottom = 16.dp)
             ) {
-                AddScheduleTopBar(onDismiss = onDismiss, onSave = {
-                    // 3. "완료" 버튼을 누르면 해당 이벤트를 `events` 맵에 저장합니다.
-                    addEventToDay(26, eventName)
-                })
+                AddScheduleTopBar(
+                    onDismiss = onDismiss,
+                    onSave = {
+                        addEventToDay(26, eventName)
+                    },
+                    isSaveButtonEnabled = eventName.isNotEmpty()
+                )
                 Spacer(modifier = Modifier.padding(32.dp))
                 AddScheduleContent(onEventNameChange = { newName ->
                     // 2. `TextField`에 대한 변경사항을 이 상태 변수에 반영합니다.
@@ -54,7 +57,10 @@ fun AddScheduleScreen(onDismiss: () -> Unit) {
 }
 
 @Composable
-fun AddScheduleTopBar(onDismiss: () -> Unit, onSave: () -> Unit) {
+fun AddScheduleTopBar(
+    onDismiss: () -> Unit, onSave: () -> Unit,
+    isSaveButtonEnabled: Boolean
+) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopCenter
@@ -96,11 +102,11 @@ fun AddScheduleTopBar(onDismiss: () -> Unit, onSave: () -> Unit) {
         // 오른쪽: 완료 버튼
         Box(
             modifier = Modifier
-                .clickable(onClick = {
+                .clickable(enabled = isSaveButtonEnabled, onClick = {
                     onDismiss()
                     onSave()
                 })
-                .background(main_100, shape = RoundedCornerShape(8.dp))
+                .background(if (isSaveButtonEnabled) main_100 else gray_20, shape = RoundedCornerShape(8.dp))
                 .align(Alignment.TopEnd)
                 .size(width = 64.dp, height = 32.dp),
             contentAlignment = Alignment.Center  // 내부 컴포넌트를 중앙에 배치
@@ -111,7 +117,7 @@ fun AddScheduleTopBar(onDismiss: () -> Unit, onSave: () -> Unit) {
                 fontWeight = FontWeight.Medium,
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center,
-                color = Color.White  // 버튼의 글자 색을 흰색으로 변경
+                color = if (isSaveButtonEnabled) Color.White else Color.White
             )
         }
     }
