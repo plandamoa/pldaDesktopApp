@@ -14,9 +14,9 @@ import androidx.compose.ui.unit.sp
 fun CustomText(
     text: String,
     color: Color,
-    fontSize: TextUnit = 18.sp,
-    fontWeight: FontWeight = FontWeight.SemiBold,
-    textAlign: TextAlign = TextAlign.Center
+    fontSize: TextUnit,
+    fontWeight: FontWeight,
+    textAlign: TextAlign = TextAlign.Start
 ) {
     Text(
         text = text,

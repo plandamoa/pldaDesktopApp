@@ -2,14 +2,12 @@ package mainCalendarScreen
 
 import UI.gray_100
 import UI.gray_40
-import UI.suitFamily
 import UI.text_primary
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*

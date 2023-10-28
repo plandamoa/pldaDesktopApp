@@ -24,7 +24,7 @@ fun CustomTopBar(
     backButtonText: String,
     centerText: String,
     showRightButton: Boolean = true,
-    onRightButtonClick: () -> Unit = {}
+    onRightButtonClick: () -> Unit = { }
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),

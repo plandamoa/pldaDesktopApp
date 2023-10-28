@@ -1,6 +1,5 @@
 package settingScreen
 
-import custom.CustomTopBar
 import UI.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,8 +15,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import custom.CustomText
+import custom.CustomTopBar
 
 @Composable
 fun SettingScreen(onDismiss: () -> Unit) {
@@ -37,7 +35,8 @@ fun SettingScreen(onDismiss: () -> Unit) {
                     onDismiss = onDismiss,
                     backButtonText = "홈으로",
                     centerText = "설정",
-                    showRightButton = false
+                    showRightButton = false,
+                    onRightButtonClick = { }
                 )
                 Spacer(modifier = Modifier.padding(32.dp))
                 SettingContent()
@@ -48,7 +47,7 @@ fun SettingScreen(onDismiss: () -> Unit) {
 
 @Composable
 fun SettingContent() {
-    Column() {
+    Column {
         UserContent()
         Spacer(modifier = Modifier.padding(16.dp))
         SettingContent(

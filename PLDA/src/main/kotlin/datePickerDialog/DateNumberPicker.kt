@@ -44,7 +44,8 @@ fun DateNumberPicker(
             }
         )
         Spacer(Modifier.width(8.dp))
-        CustomText("년", text_primary)
+        CustomText("년", text_primary, 18.sp, FontWeight.SemiBold)
+
         Spacer(Modifier.width(8.dp))
         NumberPicker(
             value = value.month,
@@ -54,7 +55,8 @@ fun DateNumberPicker(
             }
         )
         Spacer(Modifier.width(8.dp))
-        CustomText("월", text_primary)
+        CustomText("월", text_primary, 18.sp, FontWeight.SemiBold)
+
         CustomText("로 갈게요", text_third, 14.sp, FontWeight.Medium)
     }
 }

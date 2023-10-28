@@ -1,7 +1,6 @@
 package datePickerDialog
 
 import UI.main_100
-import UI.suitFamily
 import UI.text_primary
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,13 +8,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -95,7 +92,7 @@ fun DateTextRow() {
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.Top
     ) {
-        CustomText("언제", main_100)
-        CustomText("로 갈까요?", text_primary)
+        CustomText("언제", main_100, 18.sp, FontWeight.SemiBold)
+        CustomText("로 갈까요?", text_primary, 18.sp, FontWeight.SemiBold)
     }
 }
