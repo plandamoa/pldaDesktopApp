@@ -1,64 +1,26 @@
 package datePickerDialog
 
-import UI.suitFamily
-import UI.text_primary
-import UI.text_third
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
-fun YearsMonthsPicker() {
-    var state by remember { mutableStateOf<Hours>(FullHours(9, 20)) }
+fun YearsMonthsPicker(
+    onYearSelected: (Int) -> Unit, // 추가: 선택된 년도를 받을 콜백
+    onMonthSelected: (Int) -> Unit // 추가: 선택된 월을 받을 콜백
+) {
+    val state by remember { mutableStateOf<Date>(FullDate(2023, 10)) }
 
-    HoursNumberPicker(
-        modifier = Modifier
-            .padding(vertical = 16.dp), leadingZero = true,
-
+    DateNumberPicker(
+        modifier = Modifier.padding(vertical = 16.dp),
         value = state,
-        onValueChange = {
-            state = it
-        },
-        monthsRange = IntProgression.fromClosedRange(1, 12, 1),
-        yearsDivider = {
-            Text(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .padding(end = 8.dp),
-                textAlign = TextAlign.Center,
-                text = "년",
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp,
-                color = text_primary
-            )
-        },
-        monthsDivider = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    textAlign = TextAlign.Center,
-                    text = "월",
-                    fontFamily = suitFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp,
-                    color = text_primary
-                )
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = "로 갈게요",
-                    fontFamily = suitFamily,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 14.sp,
-                    color = text_third
-                )
-            }
+        onValueChange = { date ->
+            onYearSelected(date.year)
+            onMonthSelected(date.month)
         }
     )
 }

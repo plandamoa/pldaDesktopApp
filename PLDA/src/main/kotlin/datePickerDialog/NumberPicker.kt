@@ -21,7 +21,7 @@ fun NumberPicker(
     dividersColor: Color = MaterialTheme.colors.primary,
     range: Iterable<Int>,
     textStyle: TextStyle = TextStyle(
-        fontSize = 8.sp,
+        fontSize = 18.sp,
         fontFamily = suitFamily,
         fontWeight = FontWeight.SemiBold,
         color = main_100

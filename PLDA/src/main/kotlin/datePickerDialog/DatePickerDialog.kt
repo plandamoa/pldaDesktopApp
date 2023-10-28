@@ -12,46 +12,57 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DatePickerDialog(onDialogDismiss: () -> Unit) {
+fun DatePickerDialog(
+    onDialogDismiss: () -> Unit,
+    onConfirm: (year: Int, month: Int) -> Unit
+) {
+    var yearSelected by remember { mutableStateOf(2023) } // Default year
+    var monthSelected by remember { mutableStateOf(10) } // Default month
+
     AlertDialog(
-            modifier = Modifier.size(400.dp, 300.dp),
-            onDismissRequest = onDialogDismiss,
-            title = { },
-            text = {
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .padding(bottom = 16.dp)
+        modifier = Modifier.size(400.dp, 300.dp),
+        onDismissRequest = {
+            onDialogDismiss()
+        },
+        title = { },
+        text = {
+            Column(
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp)
+            ) {
+                DateTextRow()
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    TextRow()
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        YearsMonthsPicker()
-                        Spacer(modifier = Modifier.weight(1f)) // 이 Spacer를 추가하여 남은 공간을 차지하게 함
-                        ConfirmButton(
-                            onClick = {
-                                /*여기에 선택된 날짜를 전달*/
-                            }
-                        )
+                    YearsMonthsPicker(
+                        onYearSelected = { year ->
+                            yearSelected = year
+                        },
+                        onMonthSelected = { month ->
+                            monthSelected = month
+                        }
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    ConfirmButton {
+                        onConfirm(yearSelected, monthSelected)
+                        onDialogDismiss()
                     }
                 }
-            },
-            shape = RoundedCornerShape(16.dp),
-            confirmButton = { }
+            }
+        },
+        shape = RoundedCornerShape(16.dp),
+        confirmButton = { }
     )
 }
 
@@ -63,32 +74,31 @@ fun ConfirmButton(onClick: () -> Unit) {
             contentDescription = "Check",
             modifier = Modifier
                 .size(24.dp)
-                .clickable(onClick = onClick), // todo: Confirm 버튼 누르면 창 닫기
+                .clickable(onClick = onClick),
             tint = main_100
         )
     }
 }
 
 @Composable
-fun TextRow() {
+fun DateTextRow() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.Top
     ) {
-        Text(
-            text = "언제",
-            fontFamily = suitFamily,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
-            color = main_100
-        )
-        Text(
-            text = "로 갈까요?",
-            fontFamily = suitFamily,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
-            color = text_primary
-        )
+        TextFun("언제", main_100)
+        TextFun(" 로 갈까요?", text_primary)
     }
+}
+
+@Composable
+fun TextFun(text: String, color: Color) {
+    Text(
+        text = text,
+        fontFamily = suitFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 18.sp,
+        color = color
+    )
 }

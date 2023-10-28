@@ -1,7 +1,9 @@
 package mainCalendarScreen
 
-import addScheduleScreen.AddScheduleScreen
-import UI.*
+import UI.gray_100
+import UI.gray_40
+import UI.suitFamily
+import UI.text_primary
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,15 +21,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import datePickerDialog.DatePickerDialog
-import settingScreen.SettingScreen
 
 @Composable
 fun AppUI(
     onSettingsClick: () -> Unit,
     onAddScheduleClick: () -> Unit,
 ) { // 툴바와 달력 레이아웃
-    val year = 2023 // 현재 년도
-    val month = 10 //현재 월
+    var selectedYear by remember { mutableStateOf(2023) } // 기본값
+    var selectedMonth by remember { mutableStateOf(10) } // 기본값
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,14 +38,14 @@ fun AppUI(
             .padding(start = 8.dp, end = 8.dp)
     ) {
         TopAppBarLayout(
-            year = year, month = month,
+            year = selectedYear, month = selectedMonth,
             onSettingsClick = onSettingsClick,
             onAddScheduleClick = onAddScheduleClick
         ) // 상단 툴바
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        CustomCalendar(year = year, month = month) // 달력
+        CustomCalendar(year = selectedYear, month = selectedMonth) // 달력
     }
 }
 
@@ -101,6 +103,8 @@ fun TopAppBarLeft() {
 @Composable
 fun TopAppBarCenter(year: Int, month: Int) {
     var showDatePickerDialog by remember { mutableStateOf(false) }
+    var selectedYear by remember { mutableStateOf(2023) } // 기본값
+    var selectedMonth by remember { mutableStateOf(10) } // 기본값
 
     Box(
         modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
@@ -130,7 +134,14 @@ fun TopAppBarCenter(year: Int, month: Int) {
             )
         }
         if (showDatePickerDialog) {
-            DatePickerDialog() { showDatePickerDialog = false }
+            DatePickerDialog(
+                onDialogDismiss = { showDatePickerDialog = false }, // Dialog 닫기 로직 구현
+                onConfirm = { year, month ->
+                    selectedYear = year
+                    selectedMonth = month
+                    showDatePickerDialog = false // 선택 후 다이얼로그 닫기
+                }
+            )
         }
     }
 }
