@@ -23,23 +23,17 @@ import java.util.*
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DatePickerDialog(
+    initialYear: Int, initialMonth: Int,  // 추가된 파라미터
     onDialogDismiss: () -> Unit,
     onConfirm: (year: Int, month: Int) -> Unit
 ) {
-    // 현재의 년도와 월을 가져옵니다.
-    val calendar = Calendar.getInstance()
-    val currentYear = calendar.get(Calendar.YEAR)
-    val currentMonth = calendar.get(Calendar.MONTH) + 1 // Calendar.MONTH는 0에서 시작하므로 1을 더해줍니다.
-
     // 초기 값을 현재의 년도와 월로 설정합니다.
-    var yearSelected by remember { mutableStateOf(currentYear) }
-    var monthSelected by remember { mutableStateOf(currentMonth) }
+    var yearSelected by remember { mutableStateOf(initialYear) }
+    var monthSelected by remember { mutableStateOf(initialMonth) }
 
     AlertDialog(
         modifier = Modifier.size(400.dp, 300.dp),
-        onDismissRequest = {
-            onDialogDismiss()
-        },
+        onDismissRequest = { onDialogDismiss() },
         title = { },
         text = {
             Column(

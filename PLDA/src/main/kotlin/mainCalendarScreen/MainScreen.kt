@@ -130,10 +130,12 @@ fun TopAppBarCenter(
         }
         if (showDatePickerDialog) {
             DatePickerDialog(
-                onDialogDismiss = { showDatePickerDialog = false }, // Dialog 닫기 로직 구현
+                initialYear = year,  // 초기 년도를 설정
+                initialMonth = month, // 초기 월을 설정
+                onDialogDismiss = { showDatePickerDialog = false },
                 onConfirm = { selectedYear, selectedMonth ->
                     onDateSelected(selectedYear, selectedMonth)
-                    showDatePickerDialog = false // 선택 후 다이얼로그 닫기
+                    showDatePickerDialog = false
                 }
             )
         }
