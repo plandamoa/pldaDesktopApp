@@ -40,7 +40,11 @@ fun AppUI(
         TopAppBarLayout(
             year = selectedYear, month = selectedMonth,
             onSettingsClick = onSettingsClick,
-            onAddScheduleClick = onAddScheduleClick
+            onAddScheduleClick = onAddScheduleClick,
+            onDateSelected = { y, m ->  // lambda to update selectedYear and selectedMonth
+                selectedYear = y
+                selectedMonth = m
+            }
         ) // 상단 툴바
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -53,7 +57,8 @@ fun AppUI(
 fun TopAppBarLayout(
     year: Int, month: Int,
     onSettingsClick: () -> Unit,
-    onAddScheduleClick: () -> Unit
+    onAddScheduleClick: () -> Unit,
+    onDateSelected: (Int, Int) -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
@@ -63,8 +68,7 @@ fun TopAppBarLayout(
         TopAppBarLeft()
 
         // 가운데: 년도와 월 이동
-        TopAppBarCenter(year, month)
-
+        TopAppBarCenter(year, month, onDateSelected)
 
         // 오른쪽: 검색 창, 일정 추가 버튼, 설정 버튼
         TopAppBarRight(
@@ -101,10 +105,11 @@ fun TopAppBarLeft() {
 }
 
 @Composable
-fun TopAppBarCenter(year: Int, month: Int) {
+fun TopAppBarCenter(
+    year: Int, month: Int,
+    onDateSelected: (Int, Int) -> Unit
+) {
     var showDatePickerDialog by remember { mutableStateOf(false) }
-    var selectedYear by remember { mutableStateOf(2023) } // 기본값
-    var selectedMonth by remember { mutableStateOf(10) } // 기본값
 
     Box(
         modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
@@ -136,9 +141,8 @@ fun TopAppBarCenter(year: Int, month: Int) {
         if (showDatePickerDialog) {
             DatePickerDialog(
                 onDialogDismiss = { showDatePickerDialog = false }, // Dialog 닫기 로직 구현
-                onConfirm = { year, month ->
-                    selectedYear = year
-                    selectedMonth = month
+                onConfirm = { selectedYear, selectedMonth ->
+                    onDateSelected(selectedYear, selectedMonth)
                     showDatePickerDialog = false // 선택 후 다이얼로그 닫기
                 }
             )

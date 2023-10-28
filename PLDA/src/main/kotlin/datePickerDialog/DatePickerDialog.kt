@@ -88,7 +88,7 @@ fun DateTextRow() {
         verticalAlignment = Alignment.Top
     ) {
         TextFun("언제", main_100)
-        TextFun(" 로 갈까요?", text_primary)
+        TextFun("로 갈까요?", text_primary)
     }
 }
 
