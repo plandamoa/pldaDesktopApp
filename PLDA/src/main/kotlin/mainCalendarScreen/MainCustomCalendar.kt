@@ -91,12 +91,7 @@ fun CustomCalendar(year: Int, month: Int) {
                                     Box(Modifier.padding(6.dp)) {
                                         CustomText("$day", text_primary, 13.sp, FontWeight.SemiBold, TextAlign.End)
                                     }
-                                    val currentDate = "${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}"
-
-                                    events[currentDate]?.take(3)?.forEach { eventName ->
-                                        EventBox(eventName, Color.Gray, year, month, day)
-                                        Spacer(Modifier.padding(1.dp))
-                                    }
+                                    RenderEvents(year, month, day)
                                 }
                                 day++
                             }
