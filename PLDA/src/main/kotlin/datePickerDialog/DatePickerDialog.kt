@@ -14,9 +14,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import custom.CustomText
+import customFun.CustomText
 import java.util.*
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -92,7 +93,7 @@ fun DateTextRow() {
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.Top
     ) {
-        CustomText("언제", main_100, 18.sp, FontWeight.SemiBold)
-        CustomText("로 갈까요?", text_primary, 18.sp, FontWeight.SemiBold)
+        CustomText("언제", main_100, 18.sp, FontWeight.SemiBold, TextAlign.Start)
+        CustomText("로 갈까요?", text_primary, 18.sp, FontWeight.SemiBold, TextAlign.Start)
     }
 }

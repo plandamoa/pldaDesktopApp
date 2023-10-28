@@ -12,9 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import custom.CustomText
+import customFun.CustomText
 
 
 @Composable
@@ -41,13 +42,13 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             Spacer(modifier = Modifier.height(24.dp))
 
             // 앱 이름
-            CustomText("PLDA", text_primary, 32.sp, FontWeight.ExtraBold)
+            CustomText("PLDA", text_primary, 32.sp, FontWeight.ExtraBold, TextAlign.Start)
             Spacer(modifier = Modifier.height(16.dp))
 
             // 설명
             CustomText(
                 "여기저기 흩어진 내 일정을 단 한번에",
-                text_third, 16.sp, FontWeight.Medium
+                text_third, 16.sp, FontWeight.Medium, TextAlign.Center
             )
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -74,7 +75,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             // Copyright Text
             CustomText(
                 "Copyright © PLDA team. All rights reserved.",
-                text_third, 12.sp, FontWeight.Medium
+                text_third, 12.sp, FontWeight.Medium, TextAlign.Start
             )
         }
     }

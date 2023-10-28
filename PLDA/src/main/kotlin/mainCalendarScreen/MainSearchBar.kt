@@ -15,9 +15,10 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import custom.CustomText
+import customFun.CustomText
 
 @Composable
 fun SearchBar() {
@@ -62,7 +63,7 @@ fun SearchBar() {
                 Modifier.padding(start = 48.dp, end = 24.dp)
                     .padding(vertical = 8.dp)
             ) {
-                CustomText("일정검색", text_third, 12.sp, FontWeight.Medium)
+                CustomText("일정검색", text_third, 12.sp, FontWeight.Medium, TextAlign.Center)
             }
         }
     }

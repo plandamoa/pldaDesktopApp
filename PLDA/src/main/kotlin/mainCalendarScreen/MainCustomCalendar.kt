@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import custom.CustomText
+import customFun.CustomText
 
 import java.time.LocalDate
 
@@ -50,7 +50,7 @@ fun CustomCalendar(year: Int, month: Int) {
                 ) {
                     CustomText(
                         day, if (day == "일") sundayRed else dayOfTheWeekGray,
-                        14.sp, FontWeight.SemiBold, TextAlign.Center,
+                        14.sp, FontWeight.SemiBold, TextAlign.Center
                     )
                 }
             }
@@ -91,12 +91,11 @@ fun CustomCalendar(year: Int, month: Int) {
                                     Box(Modifier.padding(6.dp)) {
                                         CustomText("$day", text_primary, 13.sp, FontWeight.SemiBold, TextAlign.End)
                                     }
-                                    events[day]?.forEachIndexed { index, eventName ->
-                                        // Limit the number of events to 3 for this example
-                                        if (index < 3) {
-                                            EventBox(eventName, Color.Gray, year, month, day)
-                                            Spacer(Modifier.padding(1.dp))
-                                        }
+                                    val currentDate = "${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}"
+
+                                    events[currentDate]?.take(3)?.forEach { eventName ->
+                                        EventBox(eventName, Color.Gray, year, month, day)
+                                        Spacer(Modifier.padding(1.dp))
                                     }
                                 }
                                 day++

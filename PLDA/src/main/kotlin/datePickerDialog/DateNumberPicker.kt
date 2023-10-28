@@ -9,9 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import custom.CustomText
+import customFun.CustomText
 
 sealed interface Date {
     val year: Int
@@ -44,7 +45,7 @@ fun DateNumberPicker(
             }
         )
         Spacer(Modifier.width(8.dp))
-        CustomText("년", text_primary, 18.sp, FontWeight.SemiBold)
+        CustomText("년", text_primary, 18.sp, FontWeight.SemiBold, TextAlign.Start)
 
         Spacer(Modifier.width(8.dp))
         NumberPicker(
@@ -55,8 +56,8 @@ fun DateNumberPicker(
             }
         )
         Spacer(Modifier.width(8.dp))
-        CustomText("월", text_primary, 18.sp, FontWeight.SemiBold)
+        CustomText("월", text_primary, 18.sp, FontWeight.SemiBold, TextAlign.Start)
 
-        CustomText("로 갈게요", text_third, 14.sp, FontWeight.Medium)
+        CustomText("로 갈게요", text_third, 14.sp, FontWeight.Medium, TextAlign.Start)
     }
 }

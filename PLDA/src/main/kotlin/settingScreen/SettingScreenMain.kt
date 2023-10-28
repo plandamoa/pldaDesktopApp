@@ -13,10 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import custom.CustomText
-import custom.CustomTopBar
+import customFun.CustomText
+import customFun.CustomTopBar
 
 @Composable
 fun SettingScreen(onDismiss: () -> Unit) {
@@ -35,8 +36,7 @@ fun SettingScreen(onDismiss: () -> Unit) {
                     onDismiss = onDismiss,
                     backButtonText = "홈으로",
                     centerText = "설정",
-                    showRightButton = false,
-                    onRightButtonClick = { }
+                    showRightButton = false
                 )
                 Spacer(modifier = Modifier.padding(32.dp))
                 SettingContent()
@@ -75,7 +75,7 @@ fun UserContent() {
             .background(bg_gray, shape = RoundedCornerShape(16.dp))
             .padding(24.dp)
     ) {
-        CustomText("황당한코끼리", text_primary, 16.sp, FontWeight.Bold)
+        CustomText("황당한코끼리", text_primary, 16.sp, FontWeight.Bold, TextAlign.Start)
     }
 }
 
@@ -103,7 +103,7 @@ fun SettingContent(
                 tint = gray_100
             )
             Spacer(modifier = Modifier.width(12.dp))
-            CustomText(titleText, text_primary, 14.sp, FontWeight.Medium)
+            CustomText(titleText, text_primary, 14.sp, FontWeight.Medium, TextAlign.Start)
         }
     }
 }
@@ -115,7 +115,7 @@ fun SmallSettingContent(titleText: String) {
             modifier = Modifier.clickable(onClick = { }),
             contentAlignment = Alignment.Center
         ) {
-            CustomText(titleText, text_third, 12.sp, FontWeight.Medium)
+            CustomText(titleText, text_third, 12.sp, FontWeight.Medium, TextAlign.Start)
         }
     }
 }

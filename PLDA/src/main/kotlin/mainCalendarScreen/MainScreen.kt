@@ -16,9 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import custom.CustomText
+import customFun.CustomText
 import datePickerDialog.DatePickerDialog
 import java.util.*
 
@@ -96,7 +97,7 @@ fun TopAppBarLeft() {
                 contentDescription = "PLDA Logo",
                 modifier = Modifier.size(32.dp)
             )
-            CustomText("PLDA", gray_100, 17.sp, FontWeight.ExtraBold)
+            CustomText("PLDA", gray_100, 17.sp, FontWeight.ExtraBold, TextAlign.Start)
         }
     }
 }
@@ -119,7 +120,7 @@ fun TopAppBarCenter(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CustomText("${year}년 ${month}월", text_primary, 19.sp, FontWeight.SemiBold)
+            CustomText("${year}년 ${month}월", text_primary, 19.sp, FontWeight.SemiBold, TextAlign.Center)
             Icon(
                 painterResource("image/expand_more.svg"),
                 contentDescription = "Drop Down Arrow",

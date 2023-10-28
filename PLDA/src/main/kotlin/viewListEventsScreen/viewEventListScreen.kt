@@ -11,9 +11,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import custom.CustomText
+import customFun.CustomText
 import java.time.DayOfWeek
 import java.time.LocalDate
 
@@ -34,7 +35,8 @@ fun ViewEventListDialog(
                     fontSize = 1.sp
                 )
                 // 해당 날짜의 이벤트 리스트를 가져와 각 이벤트에 대해 EventViewBox()를 호출
-                events[day]?.forEach { event ->
+                val dateKey = "$year-$month-$day"
+                events[dateKey]?.forEach { event ->
                     EventViewBox(eventName = event)
                 }
             }
@@ -54,10 +56,10 @@ fun EventViewBox(eventName: String) {
     ) {
         Column {
             Row(modifier = Modifier.padding(vertical = 4.dp)) {
-                CustomText("from 구글캘린더", text_third, 12.sp, FontWeight.SemiBold)
+                CustomText("from 구글캘린더", text_third, 12.sp, FontWeight.SemiBold, TextAlign.Start)
             }
-            CustomText(eventName, text_primary, 16.sp, FontWeight.SemiBold)
-            CustomText("10:00", text_secondary, 11.sp, FontWeight.SemiBold)
+            CustomText(eventName, text_primary, 16.sp, FontWeight.SemiBold, TextAlign.Start)
+            CustomText("10:00", text_secondary, 11.sp, FontWeight.SemiBold, TextAlign.Start)
         }
     }
     Spacer(Modifier.padding(4.dp))
@@ -90,7 +92,7 @@ fun TopText(year: Int, month: Int, day: Int) {
             horizontalArrangement = Arrangement.Start,
         ) {
             // todo: 아이콘
-            CustomText(displayText, main_100, 16.sp, FontWeight.SemiBold)
+            CustomText(displayText, main_100, 16.sp, FontWeight.SemiBold, TextAlign.Start)
         }
     }
 }
