@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.util.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -26,8 +27,14 @@ fun DatePickerDialog(
     onDialogDismiss: () -> Unit,
     onConfirm: (year: Int, month: Int) -> Unit
 ) {
-    var yearSelected by remember { mutableStateOf(2023) } // Default year
-    var monthSelected by remember { mutableStateOf(10) } // Default month
+    // 현재의 년도와 월을 가져옵니다.
+    val calendar = Calendar.getInstance()
+    val currentYear = calendar.get(Calendar.YEAR)
+    val currentMonth = calendar.get(Calendar.MONTH) + 1 // Calendar.MONTH는 0에서 시작하므로 1을 더해줍니다.
+
+    // 초기 값을 현재의 년도와 월로 설정합니다.
+    var yearSelected by remember { mutableStateOf(currentYear) }
+    var monthSelected by remember { mutableStateOf(currentMonth) }
 
     AlertDialog(
         modifier = Modifier.size(400.dp, 300.dp),

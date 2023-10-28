@@ -21,14 +21,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import datePickerDialog.DatePickerDialog
+import java.util.*
 
 @Composable
 fun AppUI(
     onSettingsClick: () -> Unit,
     onAddScheduleClick: () -> Unit,
 ) { // 툴바와 달력 레이아웃
-    var selectedYear by remember { mutableStateOf(2023) } // 기본값
-    var selectedMonth by remember { mutableStateOf(10) } // 기본값
+    // 현재의 년도와 월을 가져옵니다.
+    val calendar = Calendar.getInstance()
+    val currentYear = calendar.get(Calendar.YEAR)
+    val currentMonth = calendar.get(Calendar.MONTH) + 1 // Calendar.MONTH는 0에서 시작하므로 1을 더해줍니다.
+
+    var selectedYear by remember { mutableStateOf(currentYear) }
+    var selectedMonth by remember { mutableStateOf(currentMonth) }
 
     Column(
         modifier = Modifier
