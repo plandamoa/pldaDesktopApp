@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import custom.CustomText
 import datePickerDialog.DatePickerDialog
 import java.util.*
 
@@ -37,8 +38,7 @@ fun AppUI(
     var selectedMonth by remember { mutableStateOf(currentMonth) }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
             .background(Color.White)
             .padding(16.dp)
             .padding(start = 8.dp, end = 8.dp)
@@ -52,7 +52,6 @@ fun AppUI(
                 selectedMonth = m
             }
         ) // 상단 툴바
-
         Spacer(modifier = Modifier.height(20.dp))
 
         CustomCalendar(year = selectedYear, month = selectedMonth) // 달력
@@ -99,13 +98,7 @@ fun TopAppBarLeft() {
                 contentDescription = "PLDA Logo",
                 modifier = Modifier.size(32.dp)
             )
-            Text(
-                text = "PLDA",
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 17.sp,
-                color = gray_100
-            )
+            CustomText("PLDA", gray_100, 17.sp, FontWeight.ExtraBold)
         }
     }
 }
@@ -128,20 +121,12 @@ fun TopAppBarCenter(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "${year}년 ${month}월",
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 19.sp,
-                color = text_primary
-            )
+            CustomText("${year}년 ${month}월", text_primary, 19.sp, FontWeight.SemiBold)
             Icon(
                 painterResource("image/expand_more.svg"),
                 contentDescription = "Drop Down Arrow",
                 tint = gray_40,
-                modifier = Modifier
-                    .size(18.dp)
-                    .padding(start = 4.dp)
+                modifier = Modifier.size(18.dp).padding(start = 4.dp)
             )
         }
         if (showDatePickerDialog) {

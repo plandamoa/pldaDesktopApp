@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import custom.CustomText
 import java.util.*
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -94,18 +95,7 @@ fun DateTextRow() {
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.Top
     ) {
-        TextFun("언제", main_100)
-        TextFun("로 갈까요?", text_primary)
+        CustomText("언제", main_100)
+        CustomText("로 갈까요?", text_primary)
     }
-}
-
-@Composable
-fun TextFun(text: String, color: Color) {
-    Text(
-        text = text,
-        fontFamily = suitFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp,
-        color = color
-    )
 }

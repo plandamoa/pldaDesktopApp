@@ -1,20 +1,17 @@
 package datePickerDialog
 
-import UI.suitFamily
 import UI.text_primary
 import UI.text_third
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import custom.CustomText
 
 sealed interface Date {
     val year: Int
@@ -46,17 +43,8 @@ fun DateNumberPicker(
                 onValueChange(FullDate(year, value.month))
             }
         )
-        Text(
-            modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .padding(end = 8.dp),
-            textAlign = TextAlign.Center,
-            text = "년",
-            fontFamily = suitFamily,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
-            color = text_primary
-        )
+        Spacer(Modifier.width(8.dp))
+        CustomText("년", text_primary)
         Spacer(Modifier.width(8.dp))
         NumberPicker(
             value = value.month,
@@ -65,22 +53,8 @@ fun DateNumberPicker(
                 onValueChange(FullDate(value.year, month))
             }
         )
-        Text(
-            modifier = Modifier.padding(horizontal = 8.dp),
-            textAlign = TextAlign.Center,
-            text = "월",
-            fontFamily = suitFamily,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
-            color = text_primary
-        )
-        Text(
-            textAlign = TextAlign.Center,
-            text = "로 갈게요",
-            fontFamily = suitFamily,
-            fontWeight = FontWeight.Medium,
-            fontSize = 14.sp,
-            color = text_third
-        )
+        Spacer(Modifier.width(8.dp))
+        CustomText("월", text_primary)
+        CustomText("로 갈게요", text_third, 14.sp, FontWeight.Medium)
     }
 }

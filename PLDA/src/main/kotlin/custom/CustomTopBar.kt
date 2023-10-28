@@ -1,4 +1,4 @@
-package Custom
+package custom
 
 import UI.*
 import androidx.compose.foundation.background

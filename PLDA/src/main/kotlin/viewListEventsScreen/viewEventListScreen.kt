@@ -14,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import custom.CustomText
 import java.time.DayOfWeek
 import java.time.LocalDate
-
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -49,35 +49,16 @@ fun ViewEventListDialog(
 @Composable
 fun EventViewBox(eventName: String) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
             .background(bg_white, shape = RoundedCornerShape(8.dp))
             .padding(24.dp)
     ) {
         Column {
             Row(modifier = Modifier.padding(vertical = 4.dp)) {
-                Text(
-                    text = "from 구글캘린더",
-                    fontFamily = suitFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 12.sp,
-                    color = text_third
-                )
+                CustomText("from 구글캘린더", text_third, 12.sp, FontWeight.SemiBold)
             }
-            Text(
-                text = eventName,
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp,
-                color = text_primary
-            )
-            Text(
-                text = "10:00",
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 11.sp,
-                color = text_secondary
-            )
+            CustomText(eventName, text_primary, 16.sp, FontWeight.SemiBold)
+            CustomText("10:00", text_secondary, 11.sp, FontWeight.SemiBold)
         }
     }
     Spacer(Modifier.padding(4.dp))
@@ -110,13 +91,7 @@ fun TopText(year: Int, month: Int, day: Int) {
             horizontalArrangement = Arrangement.Start,
         ) {
             // todo: 아이콘
-            Text(
-                text = displayText,
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp,
-                color = main_100
-            )
+            CustomText(displayText, main_100, 16.sp, FontWeight.SemiBold)
         }
     }
 }
