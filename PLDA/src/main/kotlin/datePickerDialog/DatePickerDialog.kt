@@ -1,7 +1,6 @@
 package datePickerDialog
 
 import UI.main_100
-import UI.suitFamily
 import UI.text_primary
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,49 +8,61 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import customFun.CustomText
+import java.util.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DatePickerDialog(onDialogDismiss: () -> Unit) {
+fun DatePickerDialog(
+    initialYear: Int, initialMonth: Int,  // 추가된 파라미터
+    onDialogDismiss: () -> Unit,
+    onConfirm: (year: Int, month: Int) -> Unit
+) {
+    // 초기 값을 현재의 년도와 월로 설정합니다.
+    var yearSelected by remember { mutableStateOf(initialYear) }
+    var monthSelected by remember { mutableStateOf(initialMonth) }
+
     AlertDialog(
-            modifier = Modifier.size(400.dp, 300.dp),
-            onDismissRequest = onDialogDismiss,
-            title = { },
-            text = {
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .padding(bottom = 16.dp)
+        modifier = Modifier.size(400.dp, 300.dp),
+        onDismissRequest = { onDialogDismiss() },
+        title = { },
+        text = {
+            Column(
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp)
+            ) {
+                DateTextRow()
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    TextRow()
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        YearsMonthsPicker()
-                        Spacer(modifier = Modifier.weight(1f)) // 이 Spacer를 추가하여 남은 공간을 차지하게 함
-                        ConfirmButton(
-                            onClick = {
-                                /*여기에 선택된 날짜를 전달*/
-                            }
-                        )
+                    YearsMonthsPicker(
+                        onYearSelected = { year ->
+                            yearSelected = year
+                        },
+                        onMonthSelected = { month ->
+                            monthSelected = month
+                        }
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    ConfirmButton {
+                        onConfirm(yearSelected, monthSelected)
+                        onDialogDismiss()
                     }
                 }
-            },
-            shape = RoundedCornerShape(16.dp),
-            confirmButton = { }
+            }
+        },
+        shape = RoundedCornerShape(16.dp),
+        confirmButton = { }
     )
 }
 
@@ -63,32 +74,20 @@ fun ConfirmButton(onClick: () -> Unit) {
             contentDescription = "Check",
             modifier = Modifier
                 .size(24.dp)
-                .clickable(onClick = onClick), // todo: Confirm 버튼 누르면 창 닫기
+                .clickable(onClick = onClick),
             tint = main_100
         )
     }
 }
 
 @Composable
-fun TextRow() {
+fun DateTextRow() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.Top
     ) {
-        Text(
-            text = "언제",
-            fontFamily = suitFamily,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
-            color = main_100
-        )
-        Text(
-            text = "로 갈까요?",
-            fontFamily = suitFamily,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
-            color = text_primary
-        )
+        CustomText("언제", main_100, 18.sp, FontWeight.SemiBold, TextAlign.Start)
+        CustomText("로 갈까요?", text_primary, 18.sp, FontWeight.SemiBold, TextAlign.Start)
     }
 }

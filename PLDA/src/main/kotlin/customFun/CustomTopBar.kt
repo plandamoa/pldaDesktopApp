@@ -1,4 +1,4 @@
-package Custom
+package customFun
 
 import UI.*
 import androidx.compose.foundation.background
@@ -24,7 +24,7 @@ fun CustomTopBar(
     backButtonText: String,
     centerText: String,
     showRightButton: Boolean = true,
-    onRightButtonClick: () -> Unit = {}
+    onRightButtonClick: () -> Unit = { }
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),

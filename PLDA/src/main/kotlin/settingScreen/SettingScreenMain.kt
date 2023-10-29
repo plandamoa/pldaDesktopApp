@@ -1,6 +1,5 @@
 package settingScreen
 
-import Custom.CustomTopBar
 import UI.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,26 +7,24 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
+import customFun.CustomText
+import customFun.CustomTopBar
 
 @Composable
 fun SettingScreen(onDismiss: () -> Unit) {
     Box(
-        modifier = Modifier
-            .background(bg_white) // 뒷배경 제거하거나 필요한 크기로 조절
-            .zIndex(2f),  // zIndex 추가
+        modifier = Modifier.background(bg_white) // 뒷배경 제거하거나 필요한 크기로 조절
     ) {
-        Box(modifier = Modifier
-            .padding(16.dp)
+        Box(modifier = Modifier.padding(16.dp)
             .background(bg_white)
         ) {
             Column(
@@ -50,7 +47,7 @@ fun SettingScreen(onDismiss: () -> Unit) {
 
 @Composable
 fun SettingContent() {
-    Column() {
+    Column {
         UserContent()
         Spacer(modifier = Modifier.padding(16.dp))
         SettingContent(
@@ -78,13 +75,7 @@ fun UserContent() {
             .background(bg_gray, shape = RoundedCornerShape(16.dp))
             .padding(24.dp)
     ) {
-        Text(
-            text = "황당한코끼리",
-            fontFamily = suitFamily,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            color = text_primary
-        )
+        CustomText("황당한코끼리", text_primary, 16.sp, FontWeight.Bold, TextAlign.Start)
     }
 }
 
@@ -94,12 +85,10 @@ fun SettingContent(
     titleText: String,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
             .height(72.dp)
             .clickable(onClick = { }),
         contentAlignment = Alignment.Center
-
     ) {
         // 왼쪽: 아이콘과 요소 제목
         Row(
@@ -114,13 +103,7 @@ fun SettingContent(
                 tint = gray_100
             )
             Spacer(modifier = Modifier.width(12.dp))
-            Text(
-                text = titleText,
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.Medium,
-                fontSize = 14.sp,
-                color = text_primary
-            )
+            CustomText(titleText, text_primary, 14.sp, FontWeight.Medium, TextAlign.Start)
         }
     }
 }
@@ -132,13 +115,7 @@ fun SmallSettingContent(titleText: String) {
             modifier = Modifier.clickable(onClick = { }),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = titleText,
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.Medium,
-                fontSize = 12.sp,
-                color = text_third
-            )
+            CustomText(titleText, text_third, 12.sp, FontWeight.Medium, TextAlign.Start)
         }
     }
 }

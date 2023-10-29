@@ -1,13 +1,13 @@
 package mainCalendarScreen
 
-import addScheduleScreen.AddScheduleScreen
-import UI.*
+import UI.gray_100
+import UI.gray_40
+import UI.text_primary
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
@@ -16,34 +16,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import customFun.CustomText
 import datePickerDialog.DatePickerDialog
-import settingScreen.SettingScreen
+import java.util.*
 
 @Composable
 fun AppUI(
     onSettingsClick: () -> Unit,
     onAddScheduleClick: () -> Unit,
 ) { // 툴바와 달력 레이아웃
-    val year = 2023 // 현재 년도
-    val month = 10 //현재 월
+    // 현재의 년도와 월을 가져옵니다.
+    val calendar = Calendar.getInstance()
+    val currentYear = calendar.get(Calendar.YEAR)
+    val currentMonth = calendar.get(Calendar.MONTH) + 1 // Calendar.MONTH는 0에서 시작하므로 1을 더해줍니다.
+
+    var selectedYear by remember { mutableStateOf(currentYear) }
+    var selectedMonth by remember { mutableStateOf(currentMonth) }
+
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
             .background(Color.White)
             .padding(16.dp)
             .padding(start = 8.dp, end = 8.dp)
     ) {
         TopAppBarLayout(
-            year = year, month = month,
+            year = selectedYear, month = selectedMonth,
             onSettingsClick = onSettingsClick,
-            onAddScheduleClick = onAddScheduleClick
+            onAddScheduleClick = onAddScheduleClick,
+            onDateSelected = { y, m ->  // lambda to update selectedYear and selectedMonth
+                selectedYear = y
+                selectedMonth = m
+            }
         ) // 상단 툴바
-
         Spacer(modifier = Modifier.height(20.dp))
 
-        CustomCalendar(year = year, month = month) // 달력
+        CustomCalendar(year = selectedYear, month = selectedMonth) // 달력
     }
 }
 
@@ -51,7 +61,8 @@ fun AppUI(
 fun TopAppBarLayout(
     year: Int, month: Int,
     onSettingsClick: () -> Unit,
-    onAddScheduleClick: () -> Unit
+    onAddScheduleClick: () -> Unit,
+    onDateSelected: (Int, Int) -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
@@ -61,8 +72,7 @@ fun TopAppBarLayout(
         TopAppBarLeft()
 
         // 가운데: 년도와 월 이동
-        TopAppBarCenter(year, month)
-
+        TopAppBarCenter(year, month, onDateSelected)
 
         // 오른쪽: 검색 창, 일정 추가 버튼, 설정 버튼
         TopAppBarRight(
@@ -87,19 +97,16 @@ fun TopAppBarLeft() {
                 contentDescription = "PLDA Logo",
                 modifier = Modifier.size(32.dp)
             )
-            Text(
-                text = "PLDA",
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 17.sp,
-                color = gray_100
-            )
+            CustomText("PLDA", gray_100, 17.sp, FontWeight.ExtraBold, TextAlign.Start)
         }
     }
 }
 
 @Composable
-fun TopAppBarCenter(year: Int, month: Int) {
+fun TopAppBarCenter(
+    year: Int, month: Int,
+    onDateSelected: (Int, Int) -> Unit
+) {
     var showDatePickerDialog by remember { mutableStateOf(false) }
 
     Box(
@@ -113,24 +120,24 @@ fun TopAppBarCenter(year: Int, month: Int) {
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "${year}년 ${month}월",
-                fontFamily = suitFamily,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 19.sp,
-                color = text_primary
-            )
+            CustomText("${year}년 ${month}월", text_primary, 19.sp, FontWeight.SemiBold, TextAlign.Center)
             Icon(
                 painterResource("image/expand_more.svg"),
                 contentDescription = "Drop Down Arrow",
                 tint = gray_40,
-                modifier = Modifier
-                    .size(18.dp)
-                    .padding(start = 4.dp)
+                modifier = Modifier.size(18.dp).padding(start = 4.dp)
             )
         }
         if (showDatePickerDialog) {
-            DatePickerDialog() { showDatePickerDialog = false }
+            DatePickerDialog(
+                initialYear = year,  // 초기 년도를 설정
+                initialMonth = month, // 초기 월을 설정
+                onDialogDismiss = { showDatePickerDialog = false },
+                onConfirm = { selectedYear, selectedMonth ->
+                    onDateSelected(selectedYear, selectedMonth)
+                    showDatePickerDialog = false
+                }
+            )
         }
     }
 }

@@ -1,24 +1,21 @@
 package mainCalendarScreen
 
 import UI.*
-import addScheduleScreen.events
+import addScheduleScreen.RenderEvents
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import customFun.CustomText
+
 import java.time.LocalDate
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -35,9 +32,10 @@ fun CustomCalendar(year: Int, month: Int) {
     var nextMonthDay = 1
     var day = 1
 
+    val DAYS_VERTICAL_SIZE = 1.75f // 달력 날짜 칸 세로 비율
+
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
             .background(bg_white)
     ) {
         Row(
@@ -45,20 +43,18 @@ fun CustomCalendar(year: Int, month: Int) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             listOf("일", "월", "화", "수", "목", "금", "토").forEach { day ->
-                Text(
-                    day, modifier = Modifier.weight(1f),
-                    fontFamily = suitFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
-                    color = if (day == "일") sundayRed
-                                else dayOfTheWeekGray,
-                    textAlign = TextAlign.Center
-                )
+                Box(
+                    Modifier.weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CustomText(
+                        day, if (day == "일") sundayRed else dayOfTheWeekGray,
+                        14.sp, FontWeight.SemiBold, TextAlign.Center
+                    )
+                }
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
-
-        val DAYS_VERTICAL_SIZE = 1.75f // 달력 날짜 칸 세로 비율
 
         for (i in 0..5) { // todo: 화면 크기 조정 시 달력 열 방향 높이 유동적으로 변화하도록 수정
             Divider(color = gray_20, thickness = 1.2.dp)
@@ -80,7 +76,9 @@ fun CustomCalendar(year: Int, month: Int) {
                     ) {
                         when {
                             i == 0 && j < firstDayOfWeek -> { // 이전 달의 날짜
-                                CalendarDayText("$previousMonthDayToShow", text_lowEmphasis)
+                                Box(Modifier.padding(6.dp)) {
+                                    CustomText("$previousMonthDayToShow", text_lowEmphasis, 13.sp, FontWeight.SemiBold, TextAlign.End)
+                                }
                                 previousMonthDayToShow++
                             }
 
@@ -89,20 +87,18 @@ fun CustomCalendar(year: Int, month: Int) {
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalAlignment = Alignment.End
                                 ) {
-                                    CalendarDayText("$day", text_primary)
-                                    events[day]?.forEachIndexed { index, eventName ->
-                                        // Limit the number of events to 3 for this example
-                                        if (index < 3) {
-                                            EventBox(eventName, Color.Gray, year, month, day)
-                                            Spacer(Modifier.padding(1.dp))
-                                        }
+                                    Box(Modifier.padding(6.dp)) {
+                                        CustomText("$day", text_primary, 13.sp, FontWeight.SemiBold, TextAlign.End)
                                     }
+                                    RenderEvents(year, month, day)
                                 }
                                 day++
                             }
 
                             else -> { // 다음 달의 날짜
-                                CalendarDayText("$nextMonthDay", text_lowEmphasis)
+                                Box(Modifier.padding(6.dp)) {
+                                    CustomText("$nextMonthDay", text_lowEmphasis, 13.sp, FontWeight.SemiBold, TextAlign.End)
+                                }
                                 nextMonthDay++
                             }
                         }
@@ -111,17 +107,4 @@ fun CustomCalendar(year: Int, month: Int) {
             }
         }
     }
-}
-
-@Composable
-fun CalendarDayText(text: String, color: Color) {
-    Text(
-        modifier = Modifier.padding(6.dp),
-        text = text,
-        fontFamily = suitFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 13.sp,
-        color = color,
-        textAlign = TextAlign.End
-    )
 }
